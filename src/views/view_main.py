@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QMainWindow, QPushButton
 from PyQt5 import uic
+
 from src.utils import resource_path
+from src.models.model_log_bot import start_bot
 
 UI_PATH = resource_path("src/views/ps_view_2.ui")
 
@@ -23,4 +25,5 @@ class MainWindow(QMainWindow):
             
     def ativar_log_botao(self):
         print("Botão ativado!")
+        start_bot()
         self.btn_iniciar_log_bot.setEnabled(False)
