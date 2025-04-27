@@ -4,6 +4,7 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 from tokens import TOKEN
 
+
 class LogBotModel(QObject):
     finished = pyqtSignal()  # Sinal para quando o bot terminar
 
@@ -22,9 +23,9 @@ class LogBotModel(QObject):
 
         @self.client.event
         async def on_ready():
-            print(f'We have logged in as {self.client.user}')
+            print(f"We have logged in as {self.client.user}")
             channel = self.client.get_channel(self.CHANNEL_ID)
-            await channel.send('Bot is online!')
+            await channel.send("Bot is online!")
 
             if not self.printer.is_running():
                 self.printer.start()
@@ -38,11 +39,11 @@ class LogBotModel(QObject):
         async def printer():
             channel = self.client.get_channel(self.CHANNEL_ID)
             print(self.INDEX)
-            await channel.send(f'Index: {self.INDEX}')
+            await channel.send(f"Index: {self.INDEX}")
             self.INDEX += 1
 
             if self.INDEX > 10:
-                await channel.send('Bot is shutting down!')
+                await channel.send("Bot is shutting down!")
                 await self.client.close()
 
         self.printer = printer
