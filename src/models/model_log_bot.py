@@ -15,7 +15,7 @@ class LogBotModel(QObject):
     def __init__(self):
         super().__init__()
         self.EVENTCOUNTER = 1
-        self.CHANNEL_ID = 1361092497383755876
+        self.CHANNEL_ID = 1352626736491270227
         self.client = None
         self.printer = None
         self.ocr = PaddleOCR(use_angle_cls=True, lang="en")
@@ -54,6 +54,7 @@ class LogBotModel(QObject):
                     message = f"@here {text}"
                 await channel.send(f"{message}", file=discord.File("temp/subimage.png"))
                 self.EVENTCOUNTER += 1
+                reset_counter -= 120
             reset_counter += 1
             if reset_counter >= 240:
                 self.EVENTCOUNTER = 1
@@ -63,7 +64,7 @@ class LogBotModel(QObject):
         try:
             self.client.run(TOKEN)
         except Exception as e:
-            print(f"Erro executando o bot: {e}")
+            print(f"Error starting the bot: {e}")
         finally:
             self.finished.emit()
 
@@ -102,17 +103,17 @@ class LogBotModel(QObject):
 
                     if evento_id not in self.events:
                         self.events.append(evento_id)
-                        print(f"Novo evento: {text}")
+                        print(f"New Event: {text}")
                         return True
                     else:
-                        print(f"Evento já processado: {text}")
+                        print(f"event already registered: {text}")
                         return False
                 else:
-                    print(f"Evento ignorado: {text}")
+                    print(f"event ignored: {text}")
                     return False
             else:
-                print(f"Formato de log inválido: {text}")
+                print(f"invalid log format: {text}")
                 return False
         except Exception as e:
-            print(f"Erro ao validar o log: {e}")
+            print("Error validating log:", e)
             return False
