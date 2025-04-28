@@ -1,5 +1,8 @@
+from time import sleep
+
 from PyQt5.QtWidgets import QMainWindow, QPushButton
 from PyQt5 import uic
+
 
 from src.utils import resource_path
 from src.controllers.controller_main import MainController
@@ -29,4 +32,5 @@ class MainWindow(QMainWindow):
 
     def ativar_log_botao(self):
         self.btn_iniciar_log_bot.setEnabled(False)
+        sleep(5)
         self.controller.start_bot()
