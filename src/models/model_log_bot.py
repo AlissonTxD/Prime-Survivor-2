@@ -1,5 +1,4 @@
 import re
-from datetime import datetime
 
 import discord
 from discord.ext import tasks
@@ -15,8 +14,8 @@ class LogBotModel(QObject):
 
     def __init__(self):
         super().__init__()
-        self.INDEX = 1
-        self.CHANNEL_ID = 1352626736491270227
+        self.EVENTCOUNTER = 1
+        self.CHANNEL_ID = 1361092497383755876
         self.client = None
         self.printer = None
         self.ocr = PaddleOCR(use_angle_cls=True, lang="en")
@@ -31,39 +30,42 @@ class LogBotModel(QObject):
 
         @self.client.event
         async def on_ready():
-            print(f"We have logged in as {self.client.user}")
+            print(f"Login as {self.client.user}")
             channel = self.client.get_channel(self.CHANNEL_ID)
             await channel.send("Bot is online! activated by: omigadortxd")
 
             if not self.printer.is_running():
                 self.printer.start()
 
-        @self.client.event
-        async def on_disconnect():
-            print("Bot disconnected!")
-            self.finished.emit()
-
         @tasks.loop(seconds=5.0)
         async def printer():
             channel = self.client.get_channel(self.CHANNEL_ID)
+            reset_counter = 0
             self.generator.generate_image()
             text = self.__read_img_ocr("temp/subimage.png")
             print(text)
             is_new_event = self.__validate_log(text)
             if is_new_event:
                 message = text
-                if self.INDEX > 5:
+                if self.EVENTCOUNTER > 5:
                     message = f"@everyone {text}"
-                    self.INDEX = 1
-                elif self.INDEX >= 3:
+                    self.EVENTCOUNTER = 1
+                elif self.EVENTCOUNTER >= 3:
                     message = f"@here {text}"
-                    
                 await channel.send(f"{message}", file=discord.File("temp/subimage.png"))
-                
-                self.INDEX += 1
+                self.EVENTCOUNTER += 1
+            reset_counter += 1
+            if reset_counter >= 240:
+                self.EVENTCOUNTER = 1
+                reset_counter = 0
 
         self.printer = printer
-        self.client.run(TOKEN)
+        try:
+            self.client.run(TOKEN)
+        except Exception as e:
+            print(f"Erro executando o bot: {e}")
+        finally:
+            self.finished.emit()
 
     def stop(self):
         if self.client:
@@ -82,7 +84,7 @@ class LogBotModel(QObject):
             return texto_final
         except Exception as e:
             print(f"Error reading image: {e}")
-            
+
     def __validate_log(self, text):
         try:
             match = re.match(r"Day (\d+), (\d{2}:\d{2}:\d{2}): (.+)", text)
@@ -91,7 +93,11 @@ class LogBotModel(QObject):
                 hora = match.group(2)
                 mensagem = match.group(3)
 
-                if "Your" in mensagem and ("destroyed" in mensagem or "killed" in mensagem) and "Baby" not in mensagem:
+                if (
+                    "Your" in mensagem
+                    and ("destroyed" in mensagem or "killed" in mensagem)
+                    and "Baby" not in mensagem
+                ):
                     evento_id = f"{dia} {hora}"
 
                     if evento_id not in self.events:
@@ -110,4 +116,3 @@ class LogBotModel(QObject):
         except Exception as e:
             print(f"Erro ao validar o log: {e}")
             return False
-            
