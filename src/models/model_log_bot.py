@@ -14,7 +14,8 @@ class LogBotModel(QObject):
 
     def __init__(self):
         super().__init__()
-        self.EVENTCOUNTER = 1
+        self.event_counter = 0
+        self.reset_counter = 0
         self.CHANNEL_ID = 1352626736491270227
         self.client = None
         self.printer = None
@@ -39,27 +40,30 @@ class LogBotModel(QObject):
 
         @tasks.loop(seconds=5.0)
         async def printer():
+            loops_for_minute = 60 / 5 # 12
             channel = self.client.get_channel(self.CHANNEL_ID)
-            reset_counter = 0
             self.generator.generate_image()
             text = self.__read_img_ocr("temp/subimage.png")
             print(text)
             is_new_event = self.__validate_log(text)
+
             if is_new_event:
                 message = text
-                if self.EVENTCOUNTER > 5:
+                if self.event_counter > 5:
                     message = f"@everyone {text}"
-                    self.EVENTCOUNTER = 1
-                elif self.EVENTCOUNTER >= 3:
+                    self.event_counter = 0
+                elif self.event_counter >= 3:
                     message = f"@here {text}"
                 await channel.send(f"{message}", file=discord.File("temp/subimage.png"))
-                self.EVENTCOUNTER += 1
-                reset_counter -= 120
-            reset_counter += 1
-            if reset_counter >= 240:
-                self.EVENTCOUNTER = 1
-                reset_counter = 0
+                self.event_counter += 1
+                self.reset_counter = (loops_for_minute * 10)
 
+            if self.reset_counter >= (loops_for_minute * 20):
+                self.event_counter = 0
+                self.reset_counter = 0
+                
+            self.reset_counter += 1
+            
         self.printer = printer
         try:
             self.client.run(TOKEN)
@@ -76,13 +80,13 @@ class LogBotModel(QObject):
         try:
             img_path = path
             result = self.ocr.ocr(img_path, cls=True)
-            palavras = []
+            words = []
             for line in result:
                 for word_info in line:
                     text = word_info[1][0]
-                    palavras.append(text)
-            texto_final = " ".join(palavras)
-            return texto_final
+                    words.append(text)
+            final_text = " ".join(words)
+            return final_text
         except Exception as e:
             print(f"Error reading image: {e}")
 
@@ -90,19 +94,20 @@ class LogBotModel(QObject):
         try:
             match = re.match(r"Day (\d+), (\d{2}:\d{2}:\d{2}): (.+)", text)
             if match:
-                dia = match.group(1)
-                hora = match.group(2)
-                mensagem = match.group(3)
+                day = match.group(1)
+                hour = match.group(2)
+                message = match.group(3)
 
                 if (
-                    "Your" in mensagem
-                    and ("destroyed" in mensagem or "killed" in mensagem)
-                    and "Baby" not in mensagem
+                    "Your" in message
+                    and ("destroyed" in message or "killed" in message)
+                    and "Baby" not in message
+                    and "decay" not in message
                 ):
-                    evento_id = f"{dia} {hora}"
+                    event_id = f"{day} {hour}"
 
-                    if evento_id not in self.events:
-                        self.events.append(evento_id)
+                    if event_id not in self.events:
+                        self.events.append(event_id)
                         print(f"New Event: {text}")
                         return True
                     else:
