@@ -30,7 +30,6 @@ class LogBotModel(MacroBase):
         async def on_ready():
             print(f"Login as {self.client.user}")
             channel = self.client.get_channel(self.CHANNEL_ID)
-            await channel.send("Bot is online! activated by: omigadortxd")
 
             if not self.printer.is_running():
                 self.printer.start()

@@ -8,7 +8,7 @@ class OCRLoader(QThread):
     def run(self):
         try:
             from paddleocr import PaddleOCR
-            ocr = PaddleOCR(use_angle_cls=True, lang="pt")
+            ocr = PaddleOCR(use_angle_cls=True, lang="en")
             self.loaded.emit(ocr)
         except Exception as e:
             self.error.emit(f"Erro ao carregar OCR: {str(e)}")
