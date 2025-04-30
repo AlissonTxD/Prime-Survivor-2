@@ -18,6 +18,7 @@ def start_log_bot():
     thread = WorkerThread(log_bot)
     log_bot.finished.connect(bot_finished)
     thread.start()
+    view.tooltip.tooltip("Log Bot Monitorando...")
     view.btn_start_log_bot.setText("Rodando...")
 
 
@@ -37,3 +38,4 @@ def bot_finished():
     view.btn_start_log_bot.setText("Iniciar Bot")
     view.btn_start_log_bot.setEnabled(True)
     view.btn_stop_log_bot.setEnabled(False)
+    view.tooltip.tooltip()
