@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QThread
 
 from src.models.model_log_bot import LogBotModel
+from src.views.view_main import MainWindow
 
 
 class WorkerThread(QThread):
@@ -25,6 +26,7 @@ def start_log_bot():
 
 
 def stop_log_bot():
+    print("Stopping bot...")
     if log_bot:
         log_bot.stop()
     if thread:
@@ -33,10 +35,9 @@ def stop_log_bot():
 
 
 def bot_finished():
-    from src.views.view_main import MainWindow
-
     view = MainWindow()
     global thread, log_bot
     thread = None
     log_bot = None
-    view.btn_iniciar_log_bot.setEnabled(True)
+    view.btn_start_log_bot.setEnabled(True)
+    view.btn_stop_log_bot.setEnabled(False)

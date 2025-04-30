@@ -1,5 +1,5 @@
 import re
-
+import asyncio
 import discord
 from discord.ext import tasks
 from PyQt5.QtCore import QObject, pyqtSignal
@@ -16,12 +16,13 @@ class LogBotModel(QObject):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
-        self.CHANNEL_ID = 1352626736491270227
+        self.CHANNEL_ID = 1361092497383755876  # test channel
         self.client = None
         self.printer = None
         self.ocr = PaddleOCR(use_angle_cls=True, lang="en")
         self.generator = ImageGerenatorModel()
         self.events = []
+        self.loop = None
 
     def run(self):
         intents = discord.Intents.default()
@@ -40,7 +41,7 @@ class LogBotModel(QObject):
 
         @tasks.loop(seconds=5.0)
         async def printer():
-            loops_for_minute = 60 / 5 # 12
+            loops_for_minute = 60 / 5  # 12
             channel = self.client.get_channel(self.CHANNEL_ID)
             self.generator.generate_image()
             text = self.__read_img_ocr("temp/subimage.png")
@@ -61,25 +62,36 @@ class LogBotModel(QObject):
             if self.reset_counter >= (loops_for_minute * 20):
                 self.event_counter = 0
                 self.reset_counter = 0
-                
+
             self.reset_counter += 1
-            
+
         self.printer = printer
+
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+
         try:
-            self.client.run(TOKEN)
+            self.loop.run_until_complete(self.client.start(TOKEN))
         except Exception as e:
             print(f"Error starting the bot: {e}")
         finally:
-            self.finished.emit()
+            try:
+                if self.client and self.client.is_closed() is False:
+                    self.loop.run_until_complete(self.client.close())
+                self.loop.run_until_complete(self.loop.shutdown_asyncgens())
+            except Exception as e:
+                print(f"Error during shutdown: {e}")
+            finally:
+                self.loop.close()
+                self.finished.emit()
 
     def stop(self):
-        if self.client:
-            self.client.close()
+        if self.client and self.loop:
+            asyncio.run_coroutine_threadsafe(self.client.close(), self.loop)
 
     def __read_img_ocr(self, path):
         try:
-            img_path = path
-            result = self.ocr.ocr(img_path, cls=True)
+            result = self.ocr.ocr(path, cls=True)
             words = []
             for line in result:
                 for word_info in line:
@@ -105,7 +117,6 @@ class LogBotModel(QObject):
                     and "decay" not in message
                 ):
                     event_id = f"{day} {hour}"
-
                     if event_id not in self.events:
                         self.events.append(event_id)
                         print(f"New Event: {text}")
