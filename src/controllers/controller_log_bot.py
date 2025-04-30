@@ -1,28 +1,24 @@
-from PyQt5.QtCore import QThread
-
 from src.models.model_log_bot import LogBotModel
+from src.models.model_image_generator import ImageGeneratorModel
 from src.views.view_main import MainWindow
-
-
-class WorkerThread(QThread):
-    def __init__(self, log_bot_model):
-        super().__init__()
-        self.log_bot_model = log_bot_model
-
-    def run(self):
-        self.log_bot_model.run()
-
+from src.models.entities.worker import WorkerThread
 
 thread = None
 log_bot = None
+view = None
 
 
 def start_log_bot():
-    global thread, log_bot
-    log_bot = LogBotModel()
+    global thread, log_bot, view
+    view = MainWindow()
+    img_gen_model = ImageGeneratorModel()
+    view.btn_start_log_bot.setEnabled(False)
+    view.btn_stop_log_bot.setEnabled(True)
+    log_bot = LogBotModel(img_gen_model)
     thread = WorkerThread(log_bot)
     log_bot.finished.connect(bot_finished)
     thread.start()
+    view.btn_start_log_bot.setText("Rodando...")
 
 
 def stop_log_bot():
@@ -35,9 +31,9 @@ def stop_log_bot():
 
 
 def bot_finished():
-    view = MainWindow()
-    global thread, log_bot
+    global thread, log_bot, view
     thread = None
     log_bot = None
+    view.btn_start_log_bot.setText("Iniciar Bot")
     view.btn_start_log_bot.setEnabled(True)
     view.btn_stop_log_bot.setEnabled(False)

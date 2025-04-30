@@ -8,7 +8,7 @@ from src.controllers.controller_main import MainController
 
 def start():
     app = QApplication(argv)
-    controller = MainController()
-    view = MainWindow(controller)
+    view = MainWindow()
+    controller = MainController(view)
     view.show()
     exit(app.exec_())

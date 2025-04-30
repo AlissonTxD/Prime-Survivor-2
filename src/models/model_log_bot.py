@@ -2,25 +2,22 @@ import re
 import asyncio
 import discord
 from discord.ext import tasks
-from PyQt5.QtCore import QObject, pyqtSignal
 from paddleocr import PaddleOCR
 
 from tokens import TOKEN
-from src.models.model_image_generator import ImageGerenatorModel
+from src.models.entities.macrobase import MacroBase
 
 
-class LogBotModel(QObject):
-    finished = pyqtSignal()
-
-    def __init__(self):
+class LogBotModel(MacroBase):
+    def __init__(self, image_generator_model):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
-        self.CHANNEL_ID = 1361092497383755876  # test channel
+        self.CHANNEL_ID = 1361092497383755876
         self.client = None
         self.printer = None
         self.ocr = PaddleOCR(use_angle_cls=True, lang="en")
-        self.generator = ImageGerenatorModel()
+        self.generator = image_generator_model
         self.events = []
         self.loop = None
 
@@ -57,7 +54,7 @@ class LogBotModel(QObject):
                     message = f"@here {text}"
                 await channel.send(f"{message}", file=discord.File("temp/subimage.png"))
                 self.event_counter += 1
-                self.reset_counter = (loops_for_minute * 10)
+                self.reset_counter = loops_for_minute * 10
 
             if self.reset_counter >= (loops_for_minute * 20):
                 self.event_counter = 0
