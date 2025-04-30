@@ -2,21 +2,20 @@ import re
 import asyncio
 import discord
 from discord.ext import tasks
-from paddleocr import PaddleOCR
 
 from tokens import TOKEN
 from src.models.entities.macrobase import MacroBase
 
 
 class LogBotModel(MacroBase):
-    def __init__(self, image_generator_model):
+    def __init__(self, image_generator_model, ocr_model=None):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
         self.CHANNEL_ID = 1361092497383755876
         self.client = None
         self.printer = None
-        self.ocr = PaddleOCR(use_angle_cls=True, lang="en")
+        self.ocr = ocr_model
         self.generator = image_generator_model
         self.events = []
         self.loop = None

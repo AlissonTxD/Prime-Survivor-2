@@ -1,15 +1,27 @@
 from .controller_log_bot import start_log_bot, stop_log_bot
 from src.views.view_main import MainWindow
-
+from src.models.model_ocr_loader import OCRLoader
 
 class MainController:
     def __init__(self, view: MainWindow):
         self.view = view
-        view.start_log_bot_signal.connect(self.start_bot)
-        view.stop_log_bot_signal.connect(self.stop_bot)
+        self.ocr = None
+        self.view.start_log_bot_signal.connect(self.start_bot)
+        self.view.stop_log_bot_signal.connect(self.stop_bot)
+        self.start_ocr_load()
+        
+    def start_ocr_load(self):
+        self.worker = OCRLoader()
+        self.worker.loaded.connect(self.on_ocr_loaded)
+        self.worker.start()
+        
+    def on_ocr_loaded(self, ocr_instance):
+        self.ocr = ocr_instance
+        self.view.btn_start_log_bot.setText("Iniciar Bot")
+        self.view.btn_start_log_bot.setEnabled(True)
 
     def start_bot(self):
-        start_log_bot()
+        start_log_bot(self.ocr)
 
     def stop_bot(self):
         stop_log_bot()

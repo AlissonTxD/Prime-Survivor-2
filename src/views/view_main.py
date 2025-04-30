@@ -29,7 +29,9 @@ class MainWindow(QMainWindow):
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
             self.btn_stop_log_bot.setEnabled(False)
-            
+            self.btn_start_log_bot.setEnabled(False)
+            self.btn_start_log_bot.setText("Carregando...")
+
             self.btn_start_log_bot.clicked.connect(
                 lambda: self.start_log_bot_signal.emit()
             )
