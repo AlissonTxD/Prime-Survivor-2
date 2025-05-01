@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
-    <height>712</height>
+    <width>1000</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Prime Survivor 2.0.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../midia/logo/ps_ico.ico</normaloff>../midia/logo/ps_ico.ico</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(15, 15, 15);
@@ -19,12 +23,27 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QFrame" name="frame_main">
       <property name="maximumSize">
        <size>
-        <width>900</width>
-        <height>650</height>
+        <width>1000</width>
+        <height>700</height>
        </size>
       </property>
       <property name="frameShape">
@@ -34,16 +53,84 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QTabWidget" name="tabWidget">
-         <property name="currentIndex">
-          <number>0</number>
+         <property name="font">
+          <font>
+           <family>Arial Black</family>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
          </property>
-         <widget class="QWidget" name="tab">
+         <property name="styleSheet">
+          <string notr="true">QTabBar::tab {
+    border: 4px solid rgb(255, 137, 1);
+    padding: 15px;
+    color: rgb(255, 137, 1);
+	background-color: rgb(255, 0, 4);
+}
+
+QTabBar::tab:selected {
+    background-color:rgb(255, 137, 1);
+    color: black;
+}
+
+QTabBar::tab:hover {
+	color: white;
+    background-color: rgb(215, 97, 0);
+}
+
+
+QTabWidget::pane {
+    border: 2px solid rgb(255, 137, 1);
+}
+
+QTabWidget::tab-bar {
+alignment: center;
+}</string>
+         </property>
+         <property name="tabShape">
+          <enum>QTabWidget::Triangular</enum>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="log_bot">
           <attribute name="title">
-           <string>Log_Bot</string>
+           <string>Log Bot</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QFrame" name="frame_3">
              <property name="frameShape">
@@ -53,6 +140,21 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QLabel" name="label">
                 <property name="font">
@@ -76,11 +178,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_2">
+            <widget class="QFrame" name="frame">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>50</height>
+               <height>101</height>
               </size>
              </property>
              <property name="frameShape">
@@ -89,17 +191,22 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QPushButton" name="btn_start_log_bot">
                 <property name="maximumSize">
@@ -199,12 +306,285 @@ color: #666666; /* Texto cinza escuro */
              </layout>
             </widget>
            </item>
+           <item>
+            <widget class="QFrame" name="frame_2">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>75</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../midia/logo/ps_png.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_2">
+         <widget class="QWidget" name="config">
           <attribute name="title">
-           <string>Tab 2</string>
+           <string>Configurações</string>
           </attribute>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineedit_input_logbot">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineedit_input_autoclick">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Arial Black</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255, 137, 1);
+</string>
+             </property>
+             <property name="text">
+              <string>Para Tudo</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lineedit_input_stop">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="btn_save">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Arial Black</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+background-color: rgb(255, 137, 1);
+border: 3px outset rgb(93, 49, 0);
+border-radius: 10px;
+color: rgb(15, 15, 15);
+}
+
+
+QPushButton:hover{
+color: rgb(255, 17, 0);
+background-color: rgb(215, 97, 0);
+}
+
+QPushButton:pressed{
+border: 3px inset rgb(93, 49, 0);
+color: rgb(15, 15, 15);
+background-color: rgb(255, 17, 0);
+}
+
+QPushButton:disabled {
+background-color: #cccccc; /* Cinza */
+border: 2px solid #999999;
+color: #666666; /* Texto cinza escuro */
+}
+</string>
+             </property>
+             <property name="text">
+              <string>save</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Arial Black</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255, 137, 1);
+</string>
+             </property>
+             <property name="text">
+              <string>Auto Click</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Arial Black</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255, 137, 1);
+</string>
+             </property>
+             <property name="text">
+              <string>Ativar Log Bot</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -213,17 +593,6 @@ color: #666666; /* Texto cinza escuro */
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>920</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
