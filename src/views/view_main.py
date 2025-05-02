@@ -1,3 +1,5 @@
+# src/views/view_main.py
+
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
@@ -27,22 +29,27 @@ class MainWindow(QMainWindow):
             self.initialized = True
             uic.loadUi(UI_PATH, self)
             self.tooltip = ToolTipWindowView()
+            self.key_registry = {}
 
+            # Botões
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
-            self.lineedit_input_logbot = self.findChild(QLineEdit, "lineedit_input_logbot")
-            self.keysequence_logbot = KeySequenceAdapter(self.lineedit_input_logbot)
-            self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
-            self.keysequence_stop = KeySequenceAdapter(self.lineedit_input_stop)
-            self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
-            self.keysequence_autoclick = KeySequenceAdapter(self.lineedit_input_autoclick)
 
+            # Campos de atalho
+            self.lineedit_input_logbot = self.findChild(QLineEdit, "lineedit_input_logbot")
+            self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
+            self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
+
+            # Adaptadores com registro compartilhado
+            self.keysequence_logbot = KeySequenceAdapter(self.lineedit_input_logbot, self.key_registry)
+            self.keysequence_stop = KeySequenceAdapter(self.lineedit_input_stop, self.key_registry)
+            self.keysequence_autoclick = KeySequenceAdapter(self.lineedit_input_autoclick, self.key_registry)
+
+            # Estados iniciais dos botões
             self.btn_stop_log_bot.setEnabled(False)
             self.btn_start_log_bot.setEnabled(False)
             self.btn_start_log_bot.setText("Carregando...")
-            self.btn_start_log_bot.clicked.connect(
-                lambda: self.start_log_bot_signal.emit()
-            )
-            self.btn_stop_log_bot.clicked.connect(
-                lambda: self.stop_log_bot_signal.emit()
-            )
+
+            # Conexões
+            self.btn_start_log_bot.clicked.connect(lambda: self.start_log_bot_signal.emit())
+            self.btn_stop_log_bot.clicked.connect(lambda: self.stop_log_bot_signal.emit())

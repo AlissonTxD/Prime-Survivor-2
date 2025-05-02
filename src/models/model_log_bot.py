@@ -2,8 +2,9 @@ import re
 import asyncio
 import discord
 from discord.ext import tasks
+import pywhatkit
 
-from tokens import TOKEN
+from tokens import TOKEN, GROUP_ID
 from src.models.entities.macrobase import MacroBase
 
 
@@ -12,7 +13,7 @@ class LogBotModel(MacroBase):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
-        self.CHANNEL_ID = 1361092497383755876
+        self.CHANNEL_ID = 1352626736491270227
         self.client = None
         self.printer = None
         self.ocr = ocr_model
@@ -36,6 +37,7 @@ class LogBotModel(MacroBase):
 
         @tasks.loop(seconds=5.0)
         async def printer():
+            self.focus_in_window("ArkAscended")
             loops_for_minute = 60 / 5  # 12
             channel = self.client.get_channel(self.CHANNEL_ID)
             self.generator.generate_image()
@@ -48,6 +50,8 @@ class LogBotModel(MacroBase):
                 if self.event_counter > 5:
                     message = f"@everyone {text}"
                     self.event_counter = 0
+                    pywhatkit.sendwhats_image(GROUP_ID, "temp/subimage.png", text, 20, True, 3)
+                    self.focus_in_window("ArkAscended")
                 elif self.event_counter >= 3:
                     message = f"@here {text}"
                 await channel.send(f"{message}", file=discord.File("temp/subimage.png"))
@@ -105,11 +109,12 @@ class LogBotModel(MacroBase):
                 hour = match.group(2)
                 message = match.group(3)
 
+                ignore_words = ["Baby", "decay", "Karkinos"]
+                
                 if (
                     "Your" in message
                     and ("destroyed" in message or "killed" in message)
-                    and "Baby" not in message
-                    and "decay" not in message
+                    and not any(word in message for word in ignore_words)
                 ):
                     event_id = f"{day} {hour}"
                     if event_id not in self.events:
