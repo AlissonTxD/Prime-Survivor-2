@@ -1,8 +1,10 @@
-# src/views/view_main.py
+import os
+import json
 
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
+
 
 from src.utils import resource_path
 from src.views.view_tooltip import ToolTipWindowView
@@ -34,12 +36,15 @@ class MainWindow(QMainWindow):
             # Botões
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
+            self.btn_save = self.findChild(QPushButton, "btn_save")
 
             # Campos de atalho
             self.lineedit_input_logbot = self.findChild(QLineEdit, "lineedit_input_logbot")
             self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
             self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
 
+            self.load_key_config()
+            
             # Adaptadores com registro compartilhado
             self.keysequence_logbot = KeySequenceAdapter(self.lineedit_input_logbot, self.key_registry)
             self.keysequence_stop = KeySequenceAdapter(self.lineedit_input_stop, self.key_registry)
@@ -53,3 +58,25 @@ class MainWindow(QMainWindow):
             # Conexões
             self.btn_start_log_bot.clicked.connect(lambda: self.start_log_bot_signal.emit())
             self.btn_stop_log_bot.clicked.connect(lambda: self.stop_log_bot_signal.emit())
+            self.btn_save.clicked.connect(self.test)
+
+    def load_key_config(self):
+        if not os.path.exists("config.json"):
+            return
+        try:
+            with open("config.json", "r") as f:
+                config = json.load(f)
+
+            if "lineedit_input_logbot" in config:
+                self.lineedit_input_logbot.setText(config["lineedit_input_logbot"])
+            if "lineedit_input_stop" in config:
+                self.lineedit_input_stop.setText(config["lineedit_input_stop"])
+            if "lineedit_input_autoclick" in config:
+                self.lineedit_input_autoclick.setText(config["lineedit_input_autoclick"])
+        except Exception as e:
+            print(f"Erro ao carregar configurações: {e}")
+            
+    def test(self):
+        print(self.lineedit_input_logbot.text())
+        print(self.lineedit_input_stop.text())
+        print(self.lineedit_input_autoclick.text())

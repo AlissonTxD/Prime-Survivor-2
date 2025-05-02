@@ -1,5 +1,6 @@
 import re
 import asyncio
+
 import discord
 from discord.ext import tasks
 import pywhatkit
@@ -13,7 +14,7 @@ class LogBotModel(MacroBase):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
-        self.CHANNEL_ID = 1352626736491270227
+        self.CHANNEL_ID = 1361092497383755876
         self.client = None
         self.printer = None
         self.ocr = ocr_model
@@ -22,6 +23,7 @@ class LogBotModel(MacroBase):
         self.loop = None
 
     def run(self):
+        self.focus_in_window("ArkAscended")
         intents = discord.Intents.default()
         intents.message_content = True
 
@@ -31,13 +33,12 @@ class LogBotModel(MacroBase):
         async def on_ready():
             print(f"Login as {self.client.user}")
             channel = self.client.get_channel(self.CHANNEL_ID)
-
+            await channel.send("Log Bot Started!")
             if not self.printer.is_running():
                 self.printer.start()
 
         @tasks.loop(seconds=5.0)
         async def printer():
-            self.focus_in_window("ArkAscended")
             loops_for_minute = 60 / 5  # 12
             channel = self.client.get_channel(self.CHANNEL_ID)
             self.generator.generate_image()

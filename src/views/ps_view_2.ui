@@ -109,7 +109,7 @@ alignment: center;
           <enum>QTabWidget::Triangular</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="log_bot">
           <attribute name="title">
@@ -299,7 +299,7 @@ color: #666666; /* Texto cinza escuro */
 </string>
                 </property>
                 <property name="text">
-                 <string>PARAR</string>
+                 <string>Parar</string>
                 </property>
                </widget>
               </item>
