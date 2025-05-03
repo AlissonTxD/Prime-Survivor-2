@@ -42,8 +42,6 @@ class MainWindow(QMainWindow):
             self.lineedit_input_logbot = self.findChild(QLineEdit, "lineedit_input_logbot")
             self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
             self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
-
-            self.load_key_config()
             
             # Adaptadores com registro compartilhado
             self.keysequence_logbot = KeySequenceAdapter(self.lineedit_input_logbot, self.key_registry)
@@ -60,13 +58,8 @@ class MainWindow(QMainWindow):
             self.btn_stop_log_bot.clicked.connect(lambda: self.stop_log_bot_signal.emit())
             self.btn_save.clicked.connect(self.test)
 
-    def load_key_config(self):
-        if not os.path.exists("config.json"):
-            return
+    def load_key_config(self, config):
         try:
-            with open("config.json", "r") as f:
-                config = json.load(f)
-
             if "lineedit_input_logbot" in config:
                 self.lineedit_input_logbot.setText(config["lineedit_input_logbot"])
             if "lineedit_input_stop" in config:

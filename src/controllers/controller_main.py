@@ -1,10 +1,13 @@
 from .controller_log_bot import start_log_bot, stop_log_bot
 from src.views.view_main import MainWindow
 from src.models.model_ocr_loader import OCRLoader
+from src.models.repository.config_json import ConfigRepository
 
 class MainController:
     def __init__(self, view: MainWindow):
         self.view = view
+        self.config = ConfigRepository()
+        self.view.load_key_config(self.config.get_json_data())
         self.ocr = None
         self.view.start_log_bot_signal.connect(self.start_bot)
         self.view.stop_log_bot_signal.connect(self.stop_bot)
