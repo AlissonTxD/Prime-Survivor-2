@@ -10,8 +10,8 @@ IMG_FACTORS = (2.0, 0.5, 1.0, 2.5)
 
 
 class ImageGeneratorModel:
-    def __init__(self) -> None:
-        self.SUBIMAGE_CUT = (776, 213, 1146, 256)
+    def __init__(self, subimage_cut) -> None:
+        self.SUBIMAGE_CUT = subimage_cut
 
     def generate_image(self):
         try:

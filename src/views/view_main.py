@@ -16,6 +16,7 @@ UI_PATH = resource_path("src/views/ps_view_2.ui")
 class MainWindow(QMainWindow):
     start_log_bot_signal = pyqtSignal()
     stop_log_bot_signal = pyqtSignal()
+    save_config_signal = pyqtSignal()
 
     __instance = None
 
@@ -33,43 +34,40 @@ class MainWindow(QMainWindow):
             self.tooltip = ToolTipWindowView()
             self.key_registry = {}
 
-            # Botões
+            # LogBot tab
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
-            self.btn_save = self.findChild(QPushButton, "btn_save")
-
-            # Campos de atalho
-            self.lineedit_input_logbot = self.findChild(QLineEdit, "lineedit_input_logbot")
+            
+            # Config tab
+            self.lineedit_input_logbot_start = self.findChild(QLineEdit, "lineedit_input_logbot")
             self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
             self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
-            
-            # Adaptadores com registro compartilhado
-            self.keysequence_logbot = KeySequenceAdapter(self.lineedit_input_logbot, self.key_registry)
+            self.btn_save = self.findChild(QPushButton, "btn_save")
+            # Adapters
+            self.keysequence_logbot_start = KeySequenceAdapter(self.lineedit_input_logbot_start, self.key_registry)
             self.keysequence_stop = KeySequenceAdapter(self.lineedit_input_stop, self.key_registry)
             self.keysequence_autoclick = KeySequenceAdapter(self.lineedit_input_autoclick, self.key_registry)
 
-            # Estados iniciais dos botões
+            #key list
+            self.key_list = [{"lineedit": self.lineedit_input_logbot_start, "key": "lineedit_input_logbot_start", "adapter": self.keysequence_logbot_start},
+                             {"lineedit": self.lineedit_input_stop, "key": "lineedit_input_stop", "adapter": self.keysequence_stop},
+                             {"lineedit": self.lineedit_input_autoclick, "key": "lineedit_input_autoclick", "adapter": self.keysequence_autoclick}]
+
+            # Start state of buttons
             self.btn_stop_log_bot.setEnabled(False)
             self.btn_start_log_bot.setEnabled(False)
             self.btn_start_log_bot.setText("Carregando...")
 
-            # Conexões
+            # Conecting signals and slots
             self.btn_start_log_bot.clicked.connect(lambda: self.start_log_bot_signal.emit())
             self.btn_stop_log_bot.clicked.connect(lambda: self.stop_log_bot_signal.emit())
-            self.btn_save.clicked.connect(self.test)
+            self.btn_save.clicked.connect(lambda: self.save_config_signal.emit())
 
     def load_key_config(self, config):
-        try:
-            if "lineedit_input_logbot" in config:
-                self.lineedit_input_logbot.setText(config["lineedit_input_logbot"])
-            if "lineedit_input_stop" in config:
-                self.lineedit_input_stop.setText(config["lineedit_input_stop"])
-            if "lineedit_input_autoclick" in config:
-                self.lineedit_input_autoclick.setText(config["lineedit_input_autoclick"])
-        except Exception as e:
-            print(f"Erro ao carregar configurações: {e}")
-            
-    def test(self):
-        print(self.lineedit_input_logbot.text())
-        print(self.lineedit_input_stop.text())
-        print(self.lineedit_input_autoclick.text())
+        for sequence in self.key_list:
+            try:
+                if sequence["key"] in config:
+                    sequence["lineedit"].setText(config[sequence["key"]])
+                    self.key_registry[config[sequence["key"]]] = sequence["adapter"]
+            except Exception as e:
+                print(f"Erro ao carregar configurações: {e}")

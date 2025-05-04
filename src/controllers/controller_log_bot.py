@@ -8,13 +8,13 @@ log_bot = None
 view = None
 
 
-def start_log_bot(ocr):
+def start_log_bot(ocr, config):
     global thread, log_bot, view
     view = MainWindow()
-    img_gen_model = ImageGeneratorModel()
+    img_gen_model = ImageGeneratorModel(config["subimage_cut"])
     view.btn_start_log_bot.setEnabled(False)
     view.btn_stop_log_bot.setEnabled(True)
-    log_bot = LogBotModel(img_gen_model, ocr)
+    log_bot = LogBotModel(img_gen_model, ocr, config)
     thread = WorkerThread(log_bot)
     log_bot.finished.connect(bot_finished)
     thread.start()

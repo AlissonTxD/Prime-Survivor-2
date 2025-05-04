@@ -5,16 +5,17 @@ import discord
 from discord.ext import tasks
 import pywhatkit
 
-from tokens import TOKEN, GROUP_ID
 from src.models.entities.macrobase import MacroBase
 
 
 class LogBotModel(MacroBase):
-    def __init__(self, image_generator_model, ocr_model=None):
+    def __init__(self, image_generator_model, ocr_model=None, config=None):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
-        self.CHANNEL_ID = 1361092497383755876
+        self.TOKEN = config["token"]
+        self.CHANNEL_ID = config["channel_id"]
+        self.GROUP_ID = config["group_id"]
         self.client = None
         self.printer = None
         self.ocr = ocr_model
@@ -49,9 +50,11 @@ class LogBotModel(MacroBase):
             if is_new_event:
                 message = text
                 if self.event_counter > 5:
+                    if text == None:
+                        text = "No text detected"
                     message = f"@everyone {text}"
                     self.event_counter = 0
-                    pywhatkit.sendwhats_image(GROUP_ID, "temp/subimage.png", text, 20, True, 3)
+                    pywhatkit.sendwhats_image(self.GROUP_ID, "temp/subimage.png", text, 20, True, 3)
                     self.focus_in_window("ArkAscended")
                 elif self.event_counter >= 3:
                     message = f"@here {text}"
@@ -71,7 +74,7 @@ class LogBotModel(MacroBase):
         asyncio.set_event_loop(self.loop)
 
         try:
-            self.loop.run_until_complete(self.client.start(TOKEN))
+            self.loop.run_until_complete(self.client.start(self.TOKEN))
         except Exception as e:
             print(f"Error starting the bot: {e}")
         finally:

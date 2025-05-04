@@ -7,10 +7,11 @@ class MainController:
     def __init__(self, view: MainWindow):
         self.view = view
         self.config = ConfigRepository()
-        self.view.load_key_config(self.config.get_json_data())
+        self.view.load_key_config(self.config.data["hotkeys"])
         self.ocr = None
-        self.view.start_log_bot_signal.connect(self.start_bot)
-        self.view.stop_log_bot_signal.connect(self.stop_bot)
+        self.view.start_log_bot_signal.connect(lambda: start_log_bot(self.ocr, self.config.data["logbot"]))
+        self.view.stop_log_bot_signal.connect(stop_log_bot)
+        self.view.save_config_signal.connect(self.save_config)
         self.start_ocr_load()
         
     def start_ocr_load(self):
@@ -23,8 +24,11 @@ class MainController:
         self.view.btn_start_log_bot.setText("Iniciar Bot")
         self.view.btn_start_log_bot.setEnabled(True)
 
-    def start_bot(self):
-        start_log_bot(self.ocr)
-
-    def stop_bot(self):
-        stop_log_bot()
+    def save_config(self):
+        new_config = {}
+        for camp in self.view.key_list:
+            line = camp["lineedit"]
+            key = camp["key"]
+            new_config[key] = line.text()
+        self.config.data["hotkeys"] = new_config
+        self.config.save_config()
