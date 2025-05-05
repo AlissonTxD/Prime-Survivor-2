@@ -87,10 +87,17 @@ class LogBotModel(MacroBase):
             finally:
                 self.loop.close()
                 self.finished.emit()
+                print("emitting finished signal")
 
     def stop(self):
-        if self.client and self.loop:
-            asyncio.run_coroutine_threadsafe(self.client.close(), self.loop)
+        if self.client and self.loop and not self.loop.is_closed():
+            try:
+                asyncio.run_coroutine_threadsafe(self.client.close(), self.loop)
+            except Exception as e:
+                print(f"[Erro ao tentar fechar o bot]: {e}")
+        else:
+            print("[INFO] Loop já está fechado ou não existe.")
+
 
     def __read_img_ocr(self, path):
         try:

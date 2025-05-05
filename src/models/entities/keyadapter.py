@@ -35,7 +35,6 @@ class KeySequenceAdapter(QObject):
             self._key_sequence = sequence
             self.line_edit.setText(str_seq)
             self._registry[str_seq] = self
-            print(f"list of keys: {self._registry}")
             return True
 
         return False

@@ -14,24 +14,22 @@ class MacroBase(QObject, metaclass=MetaQObjectABC):
 
     @abstractmethod
     def run(self):
-        """Obrigatório implementar nas subclasses"""
         pass
 
     def stop(self):
-        """Pode ser sobrescrito se necessário"""
         pass
     
     def focus_in_window(self, window_name) -> None:
         try:
             windows = gw.getWindowsWithTitle(window_name)
             if not windows:
-                print(f"Janela com o título '{window_name}' não encontrada.")
+                print(f"window called '{window_name}' not found.")
                 return
 
             window = windows[0]
             if gw.getActiveWindow() != window:
                 window.activate()
             else:
-                print(f"A janela '{window_name}' já está em foco.")
+                print(f"window called '{window_name}' already active.")
         except Exception as e:
-            print(f"Erro ao focar na janela: {e}")
+            print(f"Error focusing window '{window_name}': {e}")
