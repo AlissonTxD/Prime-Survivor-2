@@ -37,21 +37,45 @@ class MainWindow(QMainWindow):
             # LogBot tab
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
-            
+
             # Config tab
-            self.lineedit_input_logbot_start = self.findChild(QLineEdit, "lineedit_input_logbot")
+            self.lineedit_input_logbot_start = self.findChild(
+                QLineEdit, "lineedit_input_logbot"
+            )
             self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
-            self.lineedit_input_autoclick = self.findChild(QLineEdit, "lineedit_input_autoclick")
+            self.lineedit_input_autoclick = self.findChild(
+                QLineEdit, "lineedit_input_autoclick"
+            )
             self.btn_save = self.findChild(QPushButton, "btn_save")
             # Adapters
-            self.keysequence_logbot_start = KeySequenceAdapter(self.lineedit_input_logbot_start, self.key_registry)
-            self.keysequence_stop = KeySequenceAdapter(self.lineedit_input_stop, self.key_registry)
-            self.keysequence_autoclick = KeySequenceAdapter(self.lineedit_input_autoclick, self.key_registry)
+            self.keysequence_logbot_start = KeySequenceAdapter(
+                self.lineedit_input_logbot_start, self.key_registry
+            )
+            self.keysequence_stop = KeySequenceAdapter(
+                self.lineedit_input_stop, self.key_registry
+            )
+            self.keysequence_autoclick = KeySequenceAdapter(
+                self.lineedit_input_autoclick, self.key_registry
+            )
 
-            #key list
-            self.key_list = [{"lineedit": self.lineedit_input_logbot_start, "key": "lineedit_input_logbot_start", "adapter": self.keysequence_logbot_start},
-                             {"lineedit": self.lineedit_input_stop, "key": "lineedit_input_stop", "adapter": self.keysequence_stop},
-                             {"lineedit": self.lineedit_input_autoclick, "key": "lineedit_input_autoclick", "adapter": self.keysequence_autoclick}]
+            # key list
+            self.key_list = [
+                {
+                    "lineedit": self.lineedit_input_logbot_start,
+                    "key": "lineedit_input_logbot_start",
+                    "adapter": self.keysequence_logbot_start,
+                },
+                {
+                    "lineedit": self.lineedit_input_stop,
+                    "key": "lineedit_input_stop",
+                    "adapter": self.keysequence_stop,
+                },
+                {
+                    "lineedit": self.lineedit_input_autoclick,
+                    "key": "lineedit_input_autoclick",
+                    "adapter": self.keysequence_autoclick,
+                },
+            ]
 
             # Start state of buttons
             self.btn_stop_log_bot.setEnabled(False)
@@ -59,8 +83,12 @@ class MainWindow(QMainWindow):
             self.btn_start_log_bot.setText("Carregando...")
 
             # Conecting signals and slots
-            self.btn_start_log_bot.clicked.connect(lambda: self.start_log_bot_signal.emit())
-            self.btn_stop_log_bot.clicked.connect(lambda: self.stop_log_bot_signal.emit())
+            self.btn_start_log_bot.clicked.connect(
+                lambda: self.start_log_bot_signal.emit()
+            )
+            self.btn_stop_log_bot.clicked.connect(
+                lambda: self.stop_log_bot_signal.emit()
+            )
             self.btn_save.clicked.connect(lambda: self.save_config_signal.emit())
 
     def load_key_config(self, config):

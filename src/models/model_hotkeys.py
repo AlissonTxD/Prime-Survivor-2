@@ -2,6 +2,7 @@ from pynput import keyboard
 import threading
 import re
 
+
 class HotkeysModel:
     def __init__(self):
         self.listener = None
@@ -38,15 +39,15 @@ class HotkeysModel:
         Converte 'c' → 'c'
         """
         key = key.strip().lower()
-        parts = re.split(r'\s*\+\s*', key)
+        parts = re.split(r"\s*\+\s*", key)
 
         converted = []
         for part in parts:
             part = part.strip()
 
-            if part in ['ctrl', 'alt', 'shift', 'cmd', 'win']:
+            if part in ["ctrl", "alt", "shift", "cmd", "win"]:
                 converted.append(f"<{part}>")
-            elif re.match(r'^f\d{1,2}$', part):  # F1 até F12
+            elif re.match(r"^f\d{1,2}$", part):  # F1 até F12
                 converted.append(f"<{part}>")
             elif len(part) == 1 and part.isalnum():  # letras e números
                 converted.append(part)
@@ -54,4 +55,4 @@ class HotkeysModel:
                 print(f"[AVISO] Tecla desconhecida ou inválida: {part}")
                 return None  # Invalida a sequência
 
-        return '+'.join(converted)
+        return "+".join(converted)

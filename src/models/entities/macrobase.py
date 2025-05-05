@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import QObject, pyqtSignal
 import pygetwindow as gw
 
+
 class MetaQObjectABC(type(QObject), ABCMeta):
     pass
 
@@ -18,7 +19,7 @@ class MacroBase(QObject, metaclass=MetaQObjectABC):
 
     def stop(self):
         pass
-    
+
     def focus_in_window(self, window_name) -> None:
         try:
             windows = gw.getWindowsWithTitle(window_name)

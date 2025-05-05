@@ -6,6 +6,7 @@ from src.models.entities.worker import WorkerThread
 thread = None
 log_bot = None
 
+
 def start_log_bot(ocr, config):
     try:
         global thread, log_bot
@@ -25,6 +26,7 @@ def start_log_bot(ocr, config):
     except Exception as e:
         print(f"[ERRO] ao iniciar Log Bot: {e}")
 
+
 def stop_log_bot():
     global thread, log_bot
     if log_bot:
@@ -32,6 +34,7 @@ def stop_log_bot():
     if thread:
         thread.quit()
         thread.wait()
+
 
 def bot_finished():
     global thread, log_bot

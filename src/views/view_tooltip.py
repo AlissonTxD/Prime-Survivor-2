@@ -16,7 +16,7 @@ class ToolTipWindowView(QLabel):
         """
         )
         self.move(0, 0)
-        
+
     def tooltip(self, text: str = ""):
         if self.isVisible() and text == "" or text == "":
             self.hide()
@@ -24,7 +24,8 @@ class ToolTipWindowView(QLabel):
             self.setText(text)
             self.adjustSize()
             self.show()
-            
+
+
 if __name__ == "__main__":
     import sys
     from PyQt5.QtWidgets import QApplication

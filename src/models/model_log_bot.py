@@ -54,7 +54,9 @@ class LogBotModel(MacroBase):
                         text = "No text detected"
                     message = f"@everyone {text}"
                     self.event_counter = 0
-                    pywhatkit.sendwhats_image(self.GROUP_ID, "temp/subimage.png", text, 20, True, 3)
+                    pywhatkit.sendwhats_image(
+                        self.GROUP_ID, "temp/subimage.png", text, 20, True, 3
+                    )
                     self.focus_in_window("ArkAscended")
                 elif self.event_counter >= 3:
                     message = f"@here {text}"
@@ -98,7 +100,6 @@ class LogBotModel(MacroBase):
         else:
             print("[INFO] Loop já está fechado ou não existe.")
 
-
     def __read_img_ocr(self, path):
         try:
             result = self.ocr.ocr(path, cls=True)
@@ -121,7 +122,7 @@ class LogBotModel(MacroBase):
                 message = match.group(3)
 
                 ignore_words = ["Baby", "decay", "Karkinos"]
-                
+
                 if (
                     "Your" in message
                     and ("destroyed" in message or "killed" in message)

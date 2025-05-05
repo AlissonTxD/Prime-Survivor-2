@@ -5,6 +5,7 @@ from src.models.model_ocr_loader import OCRLoader
 from src.models.repository.config_json import ConfigRepository
 from src.models.model_hotkeys import HotkeysModel
 
+
 class MainController(QObject):
     def __init__(self, view: MainWindow):
         super().__init__()
@@ -45,8 +46,16 @@ class MainController(QObject):
 
     def load_hotkeys_and_callbacks(self):
         self.hotkeys_and_callbacks = {
-            self.config.data["hotkeys"]["lineedit_input_logbot_start"]: lambda: QMetaObject.invokeMethod(self, "start_log_bot_controller", Qt.QueuedConnection),
-            self.config.data["hotkeys"]["lineedit_input_stop"]: lambda: QMetaObject.invokeMethod(self, "stop_log_bot_controller", Qt.QueuedConnection)
+            self.config.data["hotkeys"][
+                "lineedit_input_logbot_start"
+            ]: lambda: QMetaObject.invokeMethod(
+                self, "start_log_bot_controller", Qt.QueuedConnection
+            ),
+            self.config.data["hotkeys"][
+                "lineedit_input_stop"
+            ]: lambda: QMetaObject.invokeMethod(
+                self, "stop_log_bot_controller", Qt.QueuedConnection
+            ),
         }
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
