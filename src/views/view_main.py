@@ -1,7 +1,7 @@
 import os
 import json
 
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QTabWidget
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 
@@ -34,6 +34,9 @@ class MainWindow(QMainWindow):
             self.tooltip = ToolTipWindowView()
             self.key_registry = {}
 
+            # Main Tab
+            self.tab_widget = self.findChild(QTabWidget, "maintab")
+            
             # LogBot tab
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")

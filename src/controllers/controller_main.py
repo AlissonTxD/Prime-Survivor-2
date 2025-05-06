@@ -14,7 +14,7 @@ class MainController(QObject):
         self.hotkeys = HotkeysModel()
         self.view.load_key_config(self.config.data["hotkeys"])
         self.ocr = None
-
+        self.view.tab_widget.currentChanged.connect(self.__on_tab_changed)
         self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
         self.view.stop_log_bot_signal.connect(self.stop_log_bot_controller)
         self.view.save_config_signal.connect(self.save_config)
@@ -59,6 +59,16 @@ class MainController(QObject):
         }
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
+
+    def __on_tab_changed(self, index):
+        self.off = False
+        if index == 1:
+            self.off = True
+            self.hotkeys.stop()
+        if index != 1 and self.off:
+            self.off = False
+            self.load_hotkeys_and_callbacks()
+    
     @pyqtSlot()
     def start_log_bot_controller(self):
         print("Iniciando Log Bot...")

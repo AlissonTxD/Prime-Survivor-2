@@ -3,12 +3,16 @@ import json
 
 PATH = "config.json"
 BASE_CONFIG = {
-    "hotkeys": {},
+    "hotkeys": {
+        "lineedit_input_logbot_start": "",
+        "lineedit_input_stop": "",
+        "lineedit_input_autoclick": "",
+    },
     "logbot": {
-        "token": "",
-        "chat_id": "",
+        "token": "discord token",
+        "channel_id": "channel id discord",
         "subimage_cut": [776, 213, 1146, 256],
-        "whatapp": "abc123",
+        "whatsapp": "whatsapp group link id",
     },
 }
 

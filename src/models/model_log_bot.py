@@ -15,7 +15,7 @@ class LogBotModel(MacroBase):
         self.reset_counter = 0
         self.TOKEN = config["token"]
         self.CHANNEL_ID = config["channel_id"]
-        self.GROUP_ID = config["group_id"]
+        self.GROUP_ID = config["whatsapp"]
         self.client = None
         self.printer = None
         self.ocr = ocr_model
