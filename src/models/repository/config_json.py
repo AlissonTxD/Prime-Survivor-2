@@ -4,9 +4,9 @@ import json
 PATH = "config.json"
 BASE_CONFIG = {
     "hotkeys": {
-        "lineedit_input_logbot_start": "",
-        "lineedit_input_stop": "",
-        "lineedit_input_autoclick": "",
+        "lineedit_input_logbot_start": "F8",
+        "lineedit_input_stop": "F10",
+        "lineedit_input_autoclick": "F9",
     },
     "logbot": {
         "token": "discord token",

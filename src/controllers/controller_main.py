@@ -63,7 +63,6 @@ class MainController(QObject):
         }
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
-
     def __on_tab_changed(self, index):
         if index == 1:
             self.off = True
