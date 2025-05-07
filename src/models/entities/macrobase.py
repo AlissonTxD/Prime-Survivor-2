@@ -16,11 +16,12 @@ class MacroBase(QObject, metaclass=MetaQObjectABC):
     @abstractmethod
     def run(self):
         pass
-
+    
+    @abstractmethod
     def stop(self):
         pass
 
-    def focus_in_window(self, window_name) -> None:
+    def focus_in_window(self, window_name: str = "ArkAscended") -> None:
         try:
             windows = gw.getWindowsWithTitle(window_name)
             if not windows:
