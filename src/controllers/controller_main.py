@@ -14,8 +14,10 @@ class MainController(QObject):
         self.config = ConfigRepository()
         self.hotkeys = HotkeysModel()
         self.view.load_key_config(self.config.data["hotkeys"])
+        self.index_of_config = 2
         self.ocr = None
-        self.off = False
+        self.hotkeys_isnt_activated = False
+        self.something_is_running = False
         self.view.tab_widget.currentChanged.connect(self.__on_tab_changed)
         self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
         self.view.stop_log_bot_signal.connect(self.stop_all_controller)
@@ -44,6 +46,7 @@ class MainController(QObject):
         self.hotkeys.stop()
         self.config.reload_config()
         self.view.load_key_config(self.config.data["hotkeys"])
+        self.view.tab_widget.setCurrentIndex(0)
 
     def load_hotkeys_and_callbacks(self):
         self.hotkeys_and_callbacks = {
@@ -57,30 +60,41 @@ class MainController(QObject):
             ]: lambda: QMetaObject.invokeMethod(
                 self, "stop_all_controller", Qt.QueuedConnection
             ),
-            self.config.data["hotkeys"]["lineedit_input_autoclick"]: lambda: QMetaObject.invokeMethod(
+            self.config.data["hotkeys"][
+                "lineedit_input_autoclick"
+            ]: lambda: QMetaObject.invokeMethod(
                 self, "start_autoclicker_controller", Qt.QueuedConnection
             ),
         }
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
     def __on_tab_changed(self, index):
-        if index == 1:
-            self.off = True
+        print(index)
+        if index == self.index_of_config:
+            self.hotkeys_isnt_activated = True
             self.hotkeys.stop()
-        elif index != 1 and self.off:
-            self.off = False
+        elif index != self.index_of_config and self.hotkeys_isnt_activated:
+            self.hotkeys_isnt_activated = False
             self.load_hotkeys_and_callbacks()
-    
+
     @pyqtSlot()
     def start_log_bot_controller(self):
-        start_log_bot(self.ocr, self.config.data["logbot"])
+        if self.something_is_running:
+            return
+        else:
+            self.something_is_running = True
+            start_log_bot(self.ocr, self.config.data["logbot"])
 
     @pyqtSlot()
     def start_autoclicker_controller(self):
-        start_autoclicker()
+        if self.something_is_running:
+            return
+        else:
+            self.something_is_running = True
+            start_autoclicker()
 
     @pyqtSlot()
     def stop_all_controller(self):
+        self.something_is_running = False
         stop_log_bot()
         stop_autoclicker()
-

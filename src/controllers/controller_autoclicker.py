@@ -5,7 +5,7 @@ from src.models.entities.worker import WorkerThread
 thread = None
 autoclicker = None
 
-def start_autoclicker(delay: float = 0.2):
+def start_autoclicker(delay: float = 0.0):
     try:
         global thread, autoclicker
         view = MainWindow()
