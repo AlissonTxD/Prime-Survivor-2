@@ -55,11 +55,13 @@ class MainController(QObject):
             ]: lambda: QMetaObject.invokeMethod(
                 self, "start_log_bot_controller", Qt.QueuedConnection
             ),
+
             self.config.data["hotkeys"][
                 "lineedit_input_stop"
             ]: lambda: QMetaObject.invokeMethod(
                 self, "stop_all_controller", Qt.QueuedConnection
             ),
+            
             self.config.data["hotkeys"][
                 "lineedit_input_autoclick"
             ]: lambda: QMetaObject.invokeMethod(

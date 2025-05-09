@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QRect
 import sys
 
 class AimWindowView(QWidget):
-    def __init__(self, style="Bolinha", color=(255, 0, 0), size=6):
+    def __init__(self, style="Bolinha", color=(255, 0, 0), size=1):
         super().__init__()
         self.style = style.lower()
         self.color = color
@@ -53,7 +53,7 @@ class AimWindowView(QWidget):
             painter.setBrush(QBrush(color))
             painter.drawEllipse(QRect(0, 0, self.width(), self.height()))
         elif self.style == "cruz":
-            painter.setPen(QPen(color, 2))
+            painter.setPen(QPen(color, 1))
             w, h = self.width(), self.height()
             painter.drawLine(w // 2, 0, w // 2, h)
             painter.drawLine(0, h // 2, w, h // 2)
