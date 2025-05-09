@@ -2,6 +2,7 @@ from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot
 from .controller_log_bot import start_log_bot, stop_log_bot
 from .controller_autoclicker import start_autoclicker, stop_autoclicker
 from src.views.view_main import MainWindow
+from src.views.view_aim import AimWindowView
 from src.models.model_ocr_loader import OCRLoader
 from src.models.repository.config_json import ConfigRepository
 from src.models.model_hotkeys import HotkeysModel
@@ -13,6 +14,7 @@ class MainController(QObject):
         self.view = view
         self.config = ConfigRepository()
         self.hotkeys = HotkeysModel()
+        self.aim_window = AimWindowView()
         self.view.load_key_config(self.config.data["hotkeys"])
         self.index_of_config = 2
         self.ocr = None
@@ -22,6 +24,7 @@ class MainController(QObject):
         self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
         self.view.stop_log_bot_signal.connect(self.stop_all_controller)
         self.view.save_config_signal.connect(self.save_config)
+        self.view.toggle_aim_signal.connect(self.aim)
         self.load_hotkeys_and_callbacks()
         self.start_ocr_load()
 
@@ -76,6 +79,14 @@ class MainController(QObject):
         elif index != self.index_of_config and self.hotkeys_isnt_activated:
             self.hotkeys_isnt_activated = False
             self.load_hotkeys_and_callbacks()
+
+    def aim(self,style: str, color: tuple, size: int):
+        if self.aim_window.isVisible():
+            self.view.btn_activate_aim.setText("Ativar Mira")
+        else:
+            self.view.btn_activate_aim.setText("Desativar Mira")
+
+        self.aim_window.toggle(style, color, size)
 
     @pyqtSlot()
     def start_log_bot_controller(self):

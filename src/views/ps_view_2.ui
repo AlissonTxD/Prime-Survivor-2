@@ -115,7 +115,7 @@ alignment: center;
           <attribute name="title">
            <string>Configurações</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -131,6 +131,52 @@ alignment: center;
            <property name="bottomMargin">
             <number>0</number>
            </property>
+           <item>
+            <widget class="QFrame" name="aim_title_frame">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>100</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>28</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Mira</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item>
             <widget class="QFrame" name="aim_frame">
              <property name="maximumSize">
@@ -158,39 +204,14 @@ alignment: center;
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <property name="spacing">
+              <property name="horizontalSpacing">
+               <number>8</number>
+              </property>
+              <property name="verticalSpacing">
                <number>0</number>
               </property>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="maximumSize">
-                 <size>
-                  <width>139</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial Black</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 137, 1);
-</string>
-                </property>
-                <property name="text">
-                 <string>Tamanho : </string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="4">
-               <widget class="QPushButton" name="pushButton">
+              <item row="2" column="6">
+               <widget class="QPushButton" name="btn_activate_aim">
                 <property name="minimumSize">
                  <size>
                   <width>100</width>
@@ -243,43 +264,92 @@ color: #666666; /* Texto cinza escuro */
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QSpinBox" name="spinBox">
-                <property name="maximumSize">
+              <item row="2" column="3">
+               <widget class="QComboBox" name="combobox_aim_style">
+                <property name="minimumSize">
                  <size>
-                  <width>134</width>
-                  <height>16777215</height>
+                  <width>0</width>
+                  <height>50</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">QSpinBox {
+                 <string notr="true">QComboBox {
     border: 0px solid rgb(45, 45, 45);
     border-radius: 10px;
-    padding: 15px;
+    padding: 10px 15px;
     background-color: rgb(24, 24, 24);
     color: rgb(80, 80, 80);
 }
 
-QSpinBox:hover {
+QComboBox:hover {
     border: 2px solid rgb(27, 27, 27);
 }
 
-QSpinBox:focus {
+QComboBox:focus {
     border: 2px solid rgb(255, 137, 1);
     color: rgb(255, 255, 255);
 }
+
+QComboBox QAbstractItemView {
+    border: none;
+    selection-background-color: rgb(255, 137, 1);
+    background-color: rgb(24, 24, 24);
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    outline: 0;
+}
 </string>
                 </property>
-                <property name="minimum">
-                 <number>1</number>
+                <item>
+                 <property name="text">
+                  <string>Bolinha</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Cruz</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="maximumSize">
+                 <size>
+                  <width>117</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
-                <property name="maximum">
-                 <number>20</number>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Tamanho : </string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
-              <item row="1" column="3">
-               <widget class="QLabel" name="label_11">
+              <item row="2" column="5">
+               <widget class="QLabel" name="label_aim_color">
                 <property name="maximumSize">
                  <size>
                   <width>50</width>
@@ -289,16 +359,15 @@ QSpinBox:focus {
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(255, 0, 0);
 border: 3px outset rgb(93, 49, 0);
-border-radius: 10px;
-color: rgb(15, 15, 15);</string>
+border-radius: 10px;</string>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2">
-               <widget class="QPushButton" name="pushButton_2">
+              <item row="2" column="4">
+               <widget class="QPushButton" name="btn_select_color">
                 <property name="minimumSize">
                  <size>
                   <width>100</width>
@@ -351,20 +420,67 @@ color: #666666; /* Texto cinza escuro */
                 </property>
                </widget>
               </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_9">
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="spinbox_aim_size">
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>40</height>
+                  <width>82</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
                   <family>Arial Black</family>
-                  <pointsize>29</pointsize>
+                  <pointsize>14</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="toolTipDuration">
+                 <number>-1</number>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSpinBox {
+    border: 0px solid rgb(45, 45, 45);
+    border-radius: 10px;
+    padding: 15px;
+    background-color: rgb(24, 24, 24);
+    color: rgb(80, 80, 80);
+}
+
+QSpinBox:hover {
+    border: 2px solid rgb(27, 27, 27);
+}
+
+QSpinBox:focus {
+    border: 2px solid rgb(255, 137, 1);
+    color: rgb(255, 255, 255);
+}
+</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>20</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_8">
+                <property name="maximumSize">
+                 <size>
+                  <width>90</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -372,10 +488,10 @@ color: #666666; /* Texto cinza escuro */
 </string>
                 </property>
                 <property name="text">
-                 <string>Mira</string>
+                 <string>Estilo :</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -383,24 +499,20 @@ color: #666666; /* Texto cinza escuro */
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_9">
-             <property name="minimumSize">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>0</width>
-               <height>375</height>
+               <width>20</width>
+               <height>40</height>
               </size>
              </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_4"/>
-            </widget>
+            </spacer>
            </item>
            <item>
-            <widget class="QFrame" name="frame_7">
+            <widget class="QFrame" name="logo_frame">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -430,7 +542,7 @@ color: #666666; /* Texto cinza escuro */
                <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_8">
+               <widget class="QLabel" name="log">
                 <property name="minimumSize">
                  <size>
                   <width>50</width>

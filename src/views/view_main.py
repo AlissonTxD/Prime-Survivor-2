@@ -1,7 +1,8 @@
 import os
 import json
 
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QTabWidget
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox
+from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QColorDialog
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 
@@ -17,6 +18,7 @@ class MainWindow(QMainWindow):
     start_log_bot_signal = pyqtSignal()
     stop_log_bot_signal = pyqtSignal()
     save_config_signal = pyqtSignal()
+    toggle_aim_signal = pyqtSignal(str, tuple, int)
 
     __instance = None
 
@@ -33,15 +35,23 @@ class MainWindow(QMainWindow):
             uic.loadUi(UI_PATH, self)
             self.tooltip = ToolTipWindowView()
             self.key_registry = {}
+            self.aim_color = (255, 0, 0)
 
             # Main Tab
             self.tab_widget = self.findChild(QTabWidget, "maintab")
-            
+
+            # Config tab
+            self.btn_select_color = self.findChild(QPushButton, "btn_select_color")
+            self.label_aim_color = self.findChild(QLabel, "label_aim_color")
+            self.btn_activate_aim = self.findChild(QPushButton, "btn_activate_aim")
+            self.combobox_aim_style = self.findChild(QComboBox, "combobox_aim_style")
+            self.spinbox_aim_size = self.findChild(QSpinBox, "spinbox_aim_size")
+
             # LogBot tab
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
 
-            # Config tab
+            # Hotket tab
             self.lineedit_input_logbot_start = self.findChild(
                 QLineEdit, "lineedit_input_logbot"
             )
@@ -93,6 +103,8 @@ class MainWindow(QMainWindow):
                 lambda: self.stop_log_bot_signal.emit()
             )
             self.btn_save.clicked.connect(lambda: self.save_config_signal.emit())
+            self.btn_select_color.clicked.connect(self.set_aim_color)
+            self.btn_activate_aim.clicked.connect(self.toggle_aim)
 
     def load_key_config(self, config):
         for sequence in self.key_list:
@@ -102,3 +114,15 @@ class MainWindow(QMainWindow):
                     self.key_registry[config[sequence["key"]]] = sequence["adapter"]
             except Exception as e:
                 print(f"Erro ao carregar configurações: {e}")
+
+    def set_aim_color(self):
+        cor = QColorDialog.getColor()
+        if cor.isValid():
+            self.aim_color = (cor.red(), cor.green(), cor.blue())
+            self.label_aim_color.setStyleSheet(
+                f"background-color: rgb({cor.red()}, {cor.green()}, {cor.blue()});border: 3px outset rgb(93, 49, 0);border-radius: 10px;")
+            
+    def toggle_aim(self):
+        size = int(self.spinbox_aim_size.text())
+        style = self.combobox_aim_style.currentText()
+        self.toggle_aim_signal.emit(style, self.aim_color, size)        
