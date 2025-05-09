@@ -109,7 +109,7 @@ alignment: center;
           <enum>QTabWidget::Triangular</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="config">
           <attribute name="title">
@@ -513,6 +513,12 @@ QSpinBox:focus {
            </item>
            <item>
             <widget class="QFrame" name="logo_frame">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>75</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -600,23 +606,14 @@ QSpinBox:focus {
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
               <item>
                <widget class="QLabel" name="label">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>396</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <family>Arial Black</family>
@@ -631,6 +628,52 @@ QSpinBox:focus {
                 </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;LOG BOT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QCheckBox" name="checkbox_test_mode">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Modo Teste</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+                <property name="tristate">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -651,10 +694,7 @@ QSpinBox:focus {
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <property name="spacing">
-               <number>0</number>
-              </property>
+             <layout class="QGridLayout" name="gridLayout_3">
               <property name="leftMargin">
                <number>0</number>
               </property>
@@ -667,7 +707,7 @@ QSpinBox:focus {
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item>
+              <item row="0" column="0">
                <widget class="QPushButton" name="btn_start_log_bot">
                 <property name="maximumSize">
                  <size>
@@ -715,7 +755,7 @@ color: #666666; /* Texto cinza escuro */
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="1">
                <widget class="QPushButton" name="btn_stop_log_bot">
                 <property name="maximumSize">
                  <size>
@@ -906,6 +946,9 @@ color: rgb(255, 255, 255)
 
 </string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
               <item row="2" column="1">
@@ -944,6 +987,9 @@ color: rgb(255, 255, 255)
 
 </string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
               <item row="1" column="3">
@@ -981,6 +1027,9 @@ color: rgb(255, 255, 255)
 }
 
 </string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>

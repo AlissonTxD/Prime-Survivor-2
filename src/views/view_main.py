@@ -2,13 +2,14 @@ import os
 import json
 
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox
-from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QColorDialog
+from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QColorDialog, QCheckBox
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 
 
 from src.utils import resource_path
 from src.views.view_tooltip import ToolTipWindowView
+from src.views.view_aim import AimWindowView
 from src.models.entities.keyadapter import KeySequenceAdapter
 
 UI_PATH = resource_path("src/views/ps_view_2.ui")
@@ -18,7 +19,6 @@ class MainWindow(QMainWindow):
     start_log_bot_signal = pyqtSignal()
     stop_log_bot_signal = pyqtSignal()
     save_config_signal = pyqtSignal()
-    toggle_aim_signal = pyqtSignal(str, tuple, int)
 
     __instance = None
 
@@ -34,6 +34,7 @@ class MainWindow(QMainWindow):
             self.initialized = True
             uic.loadUi(UI_PATH, self)
             self.tooltip = ToolTipWindowView()
+            self.aim_window = AimWindowView()
             self.key_registry = {}
             self.aim_color = (255, 0, 0)
 
@@ -50,6 +51,7 @@ class MainWindow(QMainWindow):
             # LogBot tab
             self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
             self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
+            self.checkbox_test_mode = self.findChild(QCheckBox, "checkbox_test_mode")
 
             # Hotket tab
             self.lineedit_input_logbot_start = self.findChild(
@@ -104,7 +106,10 @@ class MainWindow(QMainWindow):
             )
             self.btn_save.clicked.connect(lambda: self.save_config_signal.emit())
             self.btn_select_color.clicked.connect(self.set_aim_color)
-            self.btn_activate_aim.clicked.connect(self.toggle_aim)
+            self.btn_activate_aim.clicked.connect(self.aim_toggle)
+            self.spinbox_aim_size.textChanged.connect(self.aim_update)
+            self.combobox_aim_style.currentTextChanged.connect(self.aim_update)
+            
 
     def load_key_config(self, config):
         for sequence in self.key_list:
@@ -121,8 +126,16 @@ class MainWindow(QMainWindow):
             self.aim_color = (cor.red(), cor.green(), cor.blue())
             self.label_aim_color.setStyleSheet(
                 f"background-color: rgb({cor.red()}, {cor.green()}, {cor.blue()});border: 3px outset rgb(93, 49, 0);border-radius: 10px;")
-            
-    def toggle_aim(self):
+            self.aim_update()
+
+    def aim_update(self):
         size = int(self.spinbox_aim_size.text())
         style = self.combobox_aim_style.currentText()
-        self.toggle_aim_signal.emit(style, self.aim_color, size)        
+        self.aim_window.aim_update(style, self.aim_color, size)
+    
+    def aim_toggle(self):
+        if self.aim_window.isVisible():
+            self.btn_activate_aim.setText("Ativar Mira")
+        else:
+            self.btn_activate_aim.setText("Desativar Mira")
+        self.aim_window.toggle()

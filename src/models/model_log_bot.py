@@ -9,7 +9,7 @@ from src.models.entities.macrobase import MacroBase
 
 
 class LogBotModel(MacroBase):
-    def __init__(self, image_generator_model, ocr_model=None, config=None):
+    def __init__(self, image_generator_model, ocr_model=None, config=None, testmode=False):
         super().__init__()
         self.event_counter = 0
         self.reset_counter = 0
@@ -19,6 +19,7 @@ class LogBotModel(MacroBase):
         self.client = None
         self.printer = None
         self.ocr = ocr_model
+        self.testmode = testmode
         self.generator = image_generator_model
         self.events = []
         self.loop = None
@@ -47,6 +48,10 @@ class LogBotModel(MacroBase):
             print(text)
             is_new_event = self.__validate_log(text)
 
+            if self.testmode:
+                is_new_event = True
+                text = f"Test Event: {text}"
+
             if is_new_event:
                 message = text
                 if self.event_counter > 5:
@@ -54,9 +59,10 @@ class LogBotModel(MacroBase):
                         text = "No text detected"
                     message = f"@everyone {text}"
                     self.event_counter = 0
-                    pywhatkit.sendwhats_image(
-                        self.GROUP_ID, "temp/subimage.png", text, 20, True, 3
-                    )
+                    if self.GROUP_ID != "none":
+                        pywhatkit.sendwhats_image(
+                            self.GROUP_ID, "temp/subimage.png", text, 20, True, 3
+                        )
                     self.focus_in_window("ArkAscended")
                 elif self.event_counter >= 3:
                     message = f"@here {text}"

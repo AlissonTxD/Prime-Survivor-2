@@ -12,7 +12,7 @@ BASE_CONFIG = {
         "token": "discord token",
         "channel_id": "channel id discord",
         "subimage_cut": [776, 213, 1146, 256],
-        "whatsapp": "whatsapp group link id",
+        "whatsapp": "none",
     },
 }
 

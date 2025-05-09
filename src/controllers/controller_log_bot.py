@@ -11,14 +11,17 @@ def start_log_bot(ocr, config):
     try:
         global thread, log_bot
         view = MainWindow()
-
+        if view.checkbox_test_mode.isChecked():
+            testmode = True
+        else:
+            testmode = False
         view.btn_start_log_bot.setEnabled(False)
         view.btn_start_log_bot.setText("Rodando...")
         view.btn_stop_log_bot.setEnabled(True)
         view.tooltip.tooltip("Log Bot Monitorando...")
 
         img_gen_model = ImageGeneratorModel(config["subimage_cut"])
-        log_bot = LogBotModel(img_gen_model, ocr, config)
+        log_bot = LogBotModel(img_gen_model, ocr, config, testmode)
         thread = WorkerThread(log_bot)
         log_bot.finished.connect(bot_finished)
         thread.start()

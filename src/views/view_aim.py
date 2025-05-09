@@ -25,7 +25,13 @@ class AimWindowView(QWidget):
             screen.center().y() - self.height() // 2
         )
 
-    def toggle(self, style=None, color=None, size=None):
+    def toggle(self):
+        if self.isVisible():
+            self.hide()
+        else:
+            self.show()
+
+    def aim_update(self, style=None, color=None, size=None):
         if style:
             self.style = style.lower()
         if color:
@@ -36,10 +42,6 @@ class AimWindowView(QWidget):
 
         self.update()
 
-        if self.isVisible():
-            self.hide()
-        else:
-            self.show()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -55,4 +57,3 @@ class AimWindowView(QWidget):
             w, h = self.width(), self.height()
             painter.drawLine(w // 2, 0, w // 2, h)
             painter.drawLine(0, h // 2, w, h // 2)
-            
