@@ -7,6 +7,7 @@ BASE_CONFIG = {
         "lineedit_input_logbot_start": "F8",
         "lineedit_input_stop": "F10",
         "lineedit_input_autoclick": "F9",
+        "lineedit_input_toggleaim": "F2"
     },
     "logbot": {
         "token": "discord token",

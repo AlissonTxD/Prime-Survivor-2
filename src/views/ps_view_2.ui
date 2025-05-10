@@ -315,7 +315,12 @@ QComboBox QAbstractItemView {
                 </item>
                 <item>
                  <property name="text">
-                  <string>Cruz</string>
+                  <string>Cruz 1px</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Cruz 2px</string>
                  </property>
                 </item>
                </widget>
@@ -910,8 +915,8 @@ color: #666666; /* Texto cinza escuro */
               <property name="spacing">
                <number>0</number>
               </property>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineedit_input_logbot">
+              <item row="2" column="3">
+               <widget class="QLineEdit" name="lineedit_input_toggleaim">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -951,8 +956,8 @@ color: rgb(255, 255, 255)
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineedit_input_stop">
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="lineedit_input_autowalk">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -986,6 +991,34 @@ color: rgb(255, 255, 255)
 }
 
 </string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="minimumSize">
+                 <size>
+                  <width>170</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Para Tudo</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1033,34 +1066,6 @@ color: rgb(255, 255, 255)
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="minimumSize">
-                 <size>
-                  <width>170</width>
-                  <height>50</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial Black</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 137, 1);
-</string>
-                </property>
-                <property name="text">
-                 <string>Ativar Log Bot</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="2">
                <widget class="QLabel" name="label_4">
                 <property name="minimumSize">
@@ -1089,8 +1094,143 @@ color: rgb(255, 255, 255)
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_3">
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="lineedit_input_stop">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_11">
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Ativar/Desativar Mira</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="lineedit_input_logbot">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="label_13">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Dropar Tudo</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_5">
                 <property name="minimumSize">
                  <size>
                   <width>170</width>
@@ -1110,7 +1250,82 @@ color: rgb(255, 255, 255)
 </string>
                 </property>
                 <property name="text">
-                 <string>Para Tudo</string>
+                 <string>Ativar Log Bot</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_12">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>14</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+</string>
+                </property>
+                <property name="text">
+                 <string>Caminhar Automatico</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLineEdit" name="lineedit_input_dropall">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Arial Black</family>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>

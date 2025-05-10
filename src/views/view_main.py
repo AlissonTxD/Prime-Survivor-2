@@ -61,6 +61,15 @@ class MainWindow(QMainWindow):
             self.lineedit_input_autoclick = self.findChild(
                 QLineEdit, "lineedit_input_autoclick"
             )
+            self.lineedit_input_toggleaim = self.findChild(
+                QLineEdit, "lineedit_input_toggleaim"
+            )
+            self.lineedit_input_autowalk = self.findChild(
+                QLineEdit, "lineedit_input_autowalk"
+            )
+            self.lineedit_input_dropall = self.findChild(
+                QLineEdit, "lineedit_input_dropall"
+            )
             self.btn_save = self.findChild(QPushButton, "btn_save")
             # Adapters
             self.keysequence_logbot_start = KeySequenceAdapter(
@@ -72,7 +81,16 @@ class MainWindow(QMainWindow):
             self.keysequence_autoclick = KeySequenceAdapter(
                 self.lineedit_input_autoclick, self.key_registry
             )
-
+            self.keysequence_toggleaim = KeySequenceAdapter(
+                self.lineedit_input_toggleaim, self.key_registry
+            )
+            self.keysequence_autowalk = KeySequenceAdapter(
+                self.lineedit_input_autowalk, self.key_registry
+            )
+            self.keysequence_dropall = KeySequenceAdapter(
+                self.lineedit_input_dropall, self.key_registry
+            )
+            
             # key list
             self.key_list = [
                 {
@@ -89,6 +107,21 @@ class MainWindow(QMainWindow):
                     "lineedit": self.lineedit_input_autoclick,
                     "key": "lineedit_input_autoclick",
                     "adapter": self.keysequence_autoclick,
+                },
+                {
+                    "lineedit": self.lineedit_input_toggleaim,
+                    "key": "lineedit_input_toggleaim",
+                    "adapter": self.keysequence_toggleaim,
+                },
+                {
+                    "lineedit": self.lineedit_input_autowalk,
+                    "key": "lineedit_input_autowalk",
+                    "adapter": self.keysequence_autowalk,
+                },
+                {
+                    "lineedit": self.lineedit_input_dropall,
+                    "key": "lineedit_input_dropall",
+                    "adapter": self.keysequence_dropall,
                 },
             ]
 

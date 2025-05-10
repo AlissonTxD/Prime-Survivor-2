@@ -52,8 +52,13 @@ class AimWindowView(QWidget):
             painter.setPen(Qt.NoPen)
             painter.setBrush(QBrush(color))
             painter.drawEllipse(QRect(0, 0, self.width(), self.height()))
-        elif self.style == "cruz":
+        elif self.style == "cruz 1px":
             painter.setPen(QPen(color, 1))
+            w, h = self.width(), self.height()
+            painter.drawLine(w // 2, 0, w // 2, h)
+            painter.drawLine(0, h // 2, w, h // 2)
+        elif self.style == "cruz 2px":
+            painter.setPen(QPen(color, 2))
             w, h = self.width(), self.height()
             painter.drawLine(w // 2, 0, w // 2, h)
             painter.drawLine(0, h // 2, w, h // 2)

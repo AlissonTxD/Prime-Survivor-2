@@ -1,6 +1,8 @@
 from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot
 from .controller_log_bot import start_log_bot, stop_log_bot
 from .controller_autoclicker import start_autoclicker, stop_autoclicker
+from .controller_autowalker import start_autowalker, stop_autowalker
+from .crontroller_drop_all import start_drop_all, stop_dropall
 from src.views.view_main import MainWindow
 from src.models.model_ocr_loader import OCRLoader
 from src.models.repository.config_json import ConfigRepository
@@ -67,6 +69,24 @@ class MainController(QObject):
             ]: lambda: QMetaObject.invokeMethod(
                 self, "start_autoclicker_controller", Qt.QueuedConnection
             ),
+            
+            self.config.data["hotkeys"][
+                "lineedit_input_toggleaim"
+            ]: lambda: QMetaObject.invokeMethod(
+                self, "toggle_aim", Qt.QueuedConnection
+            ),
+            
+            self.config.data["hotkeys"][
+                "lineedit_input_autowalk"
+            ]: lambda: QMetaObject.invokeMethod(
+                self, "start_autowalker_controller", Qt.QueuedConnection
+            ),
+            
+            self.config.data["hotkeys"][
+                "lineedit_input_dropall"
+            ]: lambda: QMetaObject.invokeMethod(
+                self, "drop_all_controller", Qt.QueuedConnection
+            ),
         }
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
@@ -95,7 +115,30 @@ class MainController(QObject):
             start_autoclicker()
 
     @pyqtSlot()
+    def start_autowalker_controller(self):
+        if self.something_is_running:
+            return
+        else:
+            self.something_is_running = True
+            start_autowalker()
+    
+    @pyqtSlot()
+    def drop_all_controller(self):
+        if self.something_is_running:
+            return
+        else:
+            self.something_is_running = True
+            start_drop_all()
+    
+    @pyqtSlot()
+    def toggle_aim(self):
+        print("Toggle Aim")
+        self.view.aim_toggle()
+    
+    @pyqtSlot()
     def stop_all_controller(self):
         self.something_is_running = False
         stop_log_bot()
         stop_autoclicker()
+        stop_autowalker()
+        stop_dropall()
