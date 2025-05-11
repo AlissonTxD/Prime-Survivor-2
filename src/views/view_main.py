@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox
-from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QColorDialog, QCheckBox
+from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 
 
 from src.utils import resource_path
 from src.views.view_tooltip import ToolTipWindowView
-from src.views.view_aim import AimWindowView
+from src.models.model_aim import AimModel
 from src.models.entities.keyadapter import KeySequenceAdapter
 
 UI_PATH = resource_path("src/views/ps_view_2.ui")
@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
     start_log_bot_signal = pyqtSignal()
     stop_log_bot_signal = pyqtSignal()
     save_config_signal = pyqtSignal()
+    aim_signal = pyqtSignal(str)
 
     __instance = None
 
@@ -31,9 +32,8 @@ class MainWindow(QMainWindow):
             self.initialized = True
             uic.loadUi(UI_PATH, self)
             self.tooltip = ToolTipWindowView()
-            self.aim_window = AimWindowView()
+            self.aim_model = AimModel()
             self.key_registry = {}
-            self.aim_color = (255, 0, 0)
 
             # Main Tab
             self.maintab = self.findChild(QTabWidget, "maintab")
@@ -72,17 +72,13 @@ class MainWindow(QMainWindow):
             self.btn_start_log_bot.setText("Carregando...")
 
             # Conecting signals and slots
-            self.btn_start_log_bot.clicked.connect(
-                lambda: self.start_log_bot_signal.emit()
-            )
-            self.btn_stop_log_bot.clicked.connect(
-                lambda: self.stop_log_bot_signal.emit()
-            )
-            self.btn_save.clicked.connect(lambda: self.save_config_signal.emit())
-            self.btn_select_color.clicked.connect(self.set_aim_color)
-            self.btn_activate_aim.clicked.connect(self.aim_toggle)
-            self.spinbox_aim_size.textChanged.connect(self.aim_update)
-            self.combobox_aim_style.currentTextChanged.connect(self.aim_update)
+            self.btn_start_log_bot.clicked.connect(self.start_log_bot_signal)
+            self.btn_stop_log_bot.clicked.connect(self.stop_log_bot_signal)
+            self.btn_save.clicked.connect(self.save_config_signal)
+            self.btn_select_color.clicked.connect(lambda: self.aim_signal.emit("select_color"))
+            self.btn_activate_aim.clicked.connect(lambda: self.aim_signal.emit("aim_toggle"))
+            self.spinbox_aim_size.textChanged.connect(lambda: self.aim_signal.emit("aim_update"))
+            self.combobox_aim_style.currentTextChanged.connect(lambda: self.aim_signal.emit("aim_update"))
             
 
     def load_key_config(self, config):
@@ -93,23 +89,3 @@ class MainWindow(QMainWindow):
                     self.key_registry[config[sequence["key"]]] = sequence["adapter"]
             except Exception as e:
                 print(f"Erro ao carregar configurações: {e}")
-
-    def set_aim_color(self):
-        cor = QColorDialog.getColor()
-        if cor.isValid():
-            self.aim_color = (cor.red(), cor.green(), cor.blue())
-            self.label_aim_color.setStyleSheet(
-                f"background-color: rgb({cor.red()}, {cor.green()}, {cor.blue()});border: 3px outset rgb(93, 49, 0);border-radius: 10px;")
-            self.aim_update()
-
-    def aim_update(self):
-        size = int(self.spinbox_aim_size.text())
-        style = self.combobox_aim_style.currentText()
-        self.aim_window.aim_update(style, self.aim_color, size)
-    
-    def aim_toggle(self):
-        if self.aim_window.isVisible():
-            self.btn_activate_aim.setText("Ativar Mira")
-        else:
-            self.btn_activate_aim.setText("Desativar Mira")
-        self.aim_window.toggle()

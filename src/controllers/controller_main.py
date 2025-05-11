@@ -5,6 +5,7 @@ from .controller_log_bot import start_log_bot, stop_log_bot
 from .controller_autoclicker import start_auto_clicker, stop_auto_clicker
 from .controller_autowalker import start_auto_walker, stop_auto_walker
 from .crontroller_drop_all import start_drop_all, stop_drop_all
+from .controller_aim import set_aim_color, aim_update, aim_toggle
 from src.views.view_main import MainWindow
 from src.models.model_ocr_loader import OCRLoader
 from src.models.repository.config_json import ConfigRepository
@@ -28,6 +29,7 @@ class MainController(QObject):
         self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
         self.view.stop_log_bot_signal.connect(self.stop_all_controller)
         self.view.save_config_signal.connect(self.__save_config)
+        self.view.aim_signal.connect(self.aim_controller)
         self.__load_hotkeys_and_callbacks()
         self.__start_ocr_load()
 
@@ -41,6 +43,19 @@ class MainController(QObject):
         self.ocr = ocr_instance
         self.view.btn_start_log_bot.setText("Iniciar Bot")
         self.view.btn_start_log_bot.setEnabled(True)
+
+# Aim Config
+    def aim_controller(self, aim_config):
+        if aim_config == "select_color":
+            set_aim_color()
+            self.aim_controller("aim_update")
+        elif aim_config == "aim_update":
+            teste = aim_update()
+            print(teste)
+            self.config.data["aim"] = teste
+            self.config.save_config()
+        elif aim_config == "aim_toggle":
+            aim_toggle()
 
 # Hotkey Config
     def __save_config(self):
@@ -116,7 +131,7 @@ class MainController(QObject):
     
     @pyqtSlot()
     def toggle_aim(self):
-        self.view.aim_toggle()
+        aim_toggle()
     
     @pyqtSlot()
     def stop_all_controller(self):
