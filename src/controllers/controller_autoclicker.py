@@ -5,7 +5,7 @@ from src.models.entities.worker import WorkerThread
 thread = None
 autoclicker = None
 
-def start_autoclicker(delay: float = 0.0):
+def start_auto_clicker(delay: float = 0.0):
     try:
         global thread, autoclicker
         view = MainWindow()
@@ -19,7 +19,7 @@ def start_autoclicker(delay: float = 0.0):
     except Exception as e:
         print(f"[ERRO] ao iniciar AutoClicker: {e}")
 
-def stop_autoclicker():
+def stop_auto_clicker():
     global thread, autoclicker
     if autoclicker:
         autoclicker.stop()
@@ -35,8 +35,3 @@ def autoclicker_finished():
     view.btn_start_log_bot.setEnabled(True)
     view.btn_stop_log_bot.setEnabled(False)
     view.tooltip.tooltip()
-
-
-
-
-    

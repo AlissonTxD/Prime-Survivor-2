@@ -3,12 +3,7 @@ import json
 
 PATH = "config.json"
 BASE_CONFIG = {
-    "hotkeys": {
-        "lineedit_input_logbot_start": "F8",
-        "lineedit_input_stop": "F10",
-        "lineedit_input_autoclick": "F9",
-        "lineedit_input_toggleaim": "F2"
-    },
+    "hotkeys": {},
     "logbot": {
         "token": "discord token",
         "channel_id": "channel id discord",
@@ -42,8 +37,3 @@ class ConfigRepository:
 
     def reload_config(self) -> None:
         self.data = self.__open_json(PATH)
-
-
-if __name__ == "__main__":
-    config = ConfigRepository()
-    print(config.data["hotkeys"])

@@ -95,7 +95,6 @@ class LogBotModel(MacroBase):
             finally:
                 self.loop.close()
                 self.finished.emit()
-                print("emitting finished signal")
 
     def stop(self):
         if self.client and self.loop and not self.loop.is_closed():

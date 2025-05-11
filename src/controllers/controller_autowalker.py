@@ -5,7 +5,7 @@ from src.models.entities.worker import WorkerThread
 thread = None
 autowalk = None
 
-def start_autowalker():
+def start_auto_walker():
     try:
         global thread, autowalk
         view = MainWindow()
@@ -19,7 +19,7 @@ def start_autowalker():
     except Exception as e:
         print(f"[ERRO] ao iniciar AutoWalk: {e}")
 
-def stop_autowalker():
+def stop_auto_walker():
     global thread, autowalk
     if autowalk:
         autowalk.stop()

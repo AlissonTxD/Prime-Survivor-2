@@ -1,6 +1,3 @@
-import os
-import json
-
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox
 from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QColorDialog, QCheckBox
 from PyQt5 import uic
@@ -39,7 +36,7 @@ class MainWindow(QMainWindow):
             self.aim_color = (255, 0, 0)
 
             # Main Tab
-            self.tab_widget = self.findChild(QTabWidget, "maintab")
+            self.maintab = self.findChild(QTabWidget, "maintab")
 
             # Config tab
             self.btn_select_color = self.findChild(QPushButton, "btn_select_color")
@@ -48,82 +45,26 @@ class MainWindow(QMainWindow):
             self.combobox_aim_style = self.findChild(QComboBox, "combobox_aim_style")
             self.spinbox_aim_size = self.findChild(QSpinBox, "spinbox_aim_size")
 
-            # LogBot tab
-            self.btn_start_log_bot = self.findChild(QPushButton, "btn_start_log_bot")
-            self.btn_stop_log_bot = self.findChild(QPushButton, "btn_stop_log_bot")
-            self.checkbox_test_mode = self.findChild(QCheckBox, "checkbox_test_mode")
-
-            # Hotket tab
-            self.lineedit_input_logbot_start = self.findChild(
-                QLineEdit, "lineedit_input_logbot"
-            )
-            self.lineedit_input_stop = self.findChild(QLineEdit, "lineedit_input_stop")
-            self.lineedit_input_autoclick = self.findChild(
-                QLineEdit, "lineedit_input_autoclick"
-            )
-            self.lineedit_input_toggleaim = self.findChild(
-                QLineEdit, "lineedit_input_toggleaim"
-            )
-            self.lineedit_input_autowalk = self.findChild(
-                QLineEdit, "lineedit_input_autowalk"
-            )
-            self.lineedit_input_dropall = self.findChild(
-                QLineEdit, "lineedit_input_dropall"
-            )
-            self.btn_save = self.findChild(QPushButton, "btn_save")
-            # Adapters
-            self.keysequence_logbot_start = KeySequenceAdapter(
-                self.lineedit_input_logbot_start, self.key_registry
-            )
-            self.keysequence_stop = KeySequenceAdapter(
-                self.lineedit_input_stop, self.key_registry
-            )
-            self.keysequence_autoclick = KeySequenceAdapter(
-                self.lineedit_input_autoclick, self.key_registry
-            )
-            self.keysequence_toggleaim = KeySequenceAdapter(
-                self.lineedit_input_toggleaim, self.key_registry
-            )
-            self.keysequence_autowalk = KeySequenceAdapter(
-                self.lineedit_input_autowalk, self.key_registry
-            )
-            self.keysequence_dropall = KeySequenceAdapter(
-                self.lineedit_input_dropall, self.key_registry
-            )
-            
-            # key list
-            self.key_list = [
-                {
-                    "lineedit": self.lineedit_input_logbot_start,
-                    "key": "lineedit_input_logbot_start",
-                    "adapter": self.keysequence_logbot_start,
-                },
-                {
-                    "lineedit": self.lineedit_input_stop,
-                    "key": "lineedit_input_stop",
-                    "adapter": self.keysequence_stop,
-                },
-                {
-                    "lineedit": self.lineedit_input_autoclick,
-                    "key": "lineedit_input_autoclick",
-                    "adapter": self.keysequence_autoclick,
-                },
-                {
-                    "lineedit": self.lineedit_input_toggleaim,
-                    "key": "lineedit_input_toggleaim",
-                    "adapter": self.keysequence_toggleaim,
-                },
-                {
-                    "lineedit": self.lineedit_input_autowalk,
-                    "key": "lineedit_input_autowalk",
-                    "adapter": self.keysequence_autowalk,
-                },
-                {
-                    "lineedit": self.lineedit_input_dropall,
-                    "key": "lineedit_input_dropall",
-                    "adapter": self.keysequence_dropall,
-                },
+           # Hotkey tab - estrutura declarativa
+            self.hotkey_definitions = [
+                ("lineedit_input_logbot", "START_LOGBOT"),
+                ("lineedit_input_stop", "STOP_ALL"),
+                ("lineedit_input_autoclick", "START_AUTOCLICKER"),
+                ("lineedit_input_toggleaim", "TOGGLE_AIM"),
+                ("lineedit_input_autowalk", "START_AUTOWALKER"),
+                ("lineedit_input_dropall", "START_DROP_ALL"),
             ]
+
+            self.key_list = []
+
+            for object_name, config_key in self.hotkey_definitions:
+                lineedit = self.findChild(QLineEdit, object_name)
+                adapter = KeySequenceAdapter(lineedit, self.key_registry)
+                self.key_list.append({
+                    "lineedit": lineedit,
+                    "key": config_key,
+                    "adapter": adapter,
+                })
 
             # Start state of buttons
             self.btn_stop_log_bot.setEnabled(False)

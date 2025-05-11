@@ -19,7 +19,7 @@ def start_drop_all():
     except Exception as e:
         print(f"[ERRO] ao iniciar Drop ALL: {e}")
 
-def stop_dropall():
+def stop_drop_all():
     global thread, drop_all
     if drop_all:
         drop_all.stop()
