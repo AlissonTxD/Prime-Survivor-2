@@ -4,6 +4,7 @@ import json
 PATH = "config.json"
 BASE_CONFIG = {
     "hotkeys": {},
+    "aim": {},
     "logbot": {
         "token": "discord token",
         "channel_id": "channel id discord",

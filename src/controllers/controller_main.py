@@ -20,7 +20,8 @@ class MainController(QObject):
         self.view = view
         self.config = ConfigRepository()
         self.hotkeys = HotkeysModel()
-        self.view.load_key_config(self.config.data["hotkeys"])
+        self.view.load_data_on_view(self.config.data)
+        aim_update()
         self.index_of_config = 2
         self.ocr = None
         self.hotkeys_isnt_activated = False
@@ -50,9 +51,9 @@ class MainController(QObject):
             set_aim_color()
             self.aim_controller("aim_update")
         elif aim_config == "aim_update":
-            teste = aim_update()
-            print(teste)
-            self.config.data["aim"] = teste
+            config = aim_update()
+            print(config)
+            self.config.data["aim"] = config
             self.config.save_config()
         elif aim_config == "aim_toggle":
             aim_toggle()
@@ -68,7 +69,7 @@ class MainController(QObject):
         self.config.save_config()
         self.hotkeys.stop()
         self.config.reload_config()
-        self.view.load_key_config(self.config.data["hotkeys"])
+        self.view.__load_key_config(self.config.data["hotkeys"])
         self.view.maintab.setCurrentIndex(0)
 
     def __load_hotkeys_and_callbacks(self):
@@ -135,7 +136,7 @@ class MainController(QObject):
     
     @pyqtSlot()
     def stop_all_controller(self):
-        self.macro_running = [False, "none"]
+        self.macro_running = MacroStatus(False, "none")
         stop_log_bot()
         stop_auto_clicker()
         stop_auto_walker()

@@ -113,7 +113,7 @@ alignment: center;
          </property>
          <widget class="QWidget" name="config">
           <attribute name="title">
-           <string>Configurações</string>
+           <string>Controles</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <property name="spacing">

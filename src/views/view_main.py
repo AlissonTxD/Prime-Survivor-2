@@ -81,7 +81,11 @@ class MainWindow(QMainWindow):
             self.combobox_aim_style.currentTextChanged.connect(lambda: self.aim_signal.emit("aim_update"))
             
 
-    def load_key_config(self, config):
+    def load_data_on_view(self, data):
+        self.__load_key_config(data["hotkeys"])
+        self.__load_aim_config(data["aim"])
+
+    def __load_key_config(self, config):
         for sequence in self.key_list:
             try:
                 if sequence["key"] in config:
@@ -89,3 +93,18 @@ class MainWindow(QMainWindow):
                     self.key_registry[config[sequence["key"]]] = sequence["adapter"]
             except Exception as e:
                 print(f"Erro ao carregar configurações: {e}")
+
+    def __load_aim_config(self, config):
+        try:
+            if "aim_color" in config:
+                cor = config["aim_color"]
+                self.label_aim_color.setStyleSheet(f"background-color: rgb({cor[0]}, {cor[1]}, {cor[2]});border: 3px outset rgb(93, 49, 0);border-radius: 10px;")
+                self.aim_model.color = (cor[0], cor[1], cor[2])
+            if "aim_size" in config:
+                self.spinbox_aim_size.setValue(config["aim_size"])
+            if "aim_style" in config:
+                index = self.combobox_aim_style.findText(config["aim_style"])
+                if index != -1:
+                    self.combobox_aim_style.setCurrentIndex(index)
+        except Exception as e:
+            print(f"Erro ao carregar configurações: {e}")

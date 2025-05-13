@@ -14,7 +14,12 @@ def aim_update():
     size = int(view.spinbox_aim_size.text())
     style = view.combobox_aim_style.currentText()
     view.aim_model.aim_update(style, view.aim_model.color, size)
-    return style, view.aim_model.color, size
+    aim_dict = {
+        "aim_color": view.aim_model.color,
+        "aim_style": style,
+        "aim_size": size
+    }
+    return aim_dict
     
 def aim_toggle():
     view = MainWindow()
