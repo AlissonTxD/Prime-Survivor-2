@@ -5,32 +5,24 @@ from PyQt5.QtCore import Qt
 class ToolTipWindowView(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowFlags(Qt.ToolTip | Qt.FramelessWindowHint)
-        self.setStyleSheet(
-            """
+        self.setWindowFlags(Qt.ToolTip | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setStyleSheet("""
             background-color: #0f0f0f;
             color: white;
-            padding: 2px;
-            border-radius: 3px;
-            font: 87 18pt "Arial Black";
-        """
-        )
+            padding: 4px;
+            border-radius: 4px;
+            font: bold 18pt 'Arial';
+        """)
+        self.setWindowOpacity(0.9)
+        self.hide()
         self.move(0, 0)
 
     def tooltip(self, text: str = ""):
-        if self.isVisible() and text == "" or text == "":
+        if not text.strip():
             self.hide()
-        else:
-            self.setText(text)
-            self.adjustSize()
-            self.show()
+            return
 
-
-if __name__ == "__main__":
-    import sys
-    from PyQt5.QtWidgets import QApplication
-
-    app = QApplication(sys.argv)
-    tooltip = ToolTipWindowView()
-    tooltip.tooltip("Estou comendo cu de curioso")
-    sys.exit(app.exec_())
+        self.setText(text)
+        self.adjustSize()
+        self.show()
+        
