@@ -69,7 +69,7 @@ class MainController(QObject):
         self.config.save_config()
         self.hotkeys.stop()
         self.config.reload_config()
-        self.view.__load_key_config(self.config.data["hotkeys"])
+        self.view.load_data_on_view(self.config.data)
         self.view.maintab.setCurrentIndex(0)
 
     def __load_hotkeys_and_callbacks(self):
