@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox, QMessageBox
 from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
@@ -50,7 +50,6 @@ class MainWindow(QMainWindow):
             self.btn_stop_log_bot.setEnabled(False)
             self.btn_start_log_bot.setEnabled(False)
             self.btn_start_log_bot.setText("Carregando...")
-            
 
     def __load_widgets(self):
         self.maintab = self.findChild(QTabWidget, "maintab")
@@ -60,7 +59,6 @@ class MainWindow(QMainWindow):
         self.combobox_aim_style = self.findChild(QComboBox, "combobox_aim_style")
         self.spinbox_aim_size = self.findChild(QSpinBox, "spinbox_aim_size")
         
-
     def __configure_hotkey_handlers(self):
         for object_name, config_key in self.hotkey_definitions:
             lineedit = self.findChild(QLineEdit, object_name)
@@ -107,3 +105,67 @@ class MainWindow(QMainWindow):
                     self.combobox_aim_style.setCurrentIndex(index)
         except Exception as e:
             print(f"Erro ao carregar configurações: {e}")
+
+    def popup_message(self, title: str = "Titulo", msg: str = "", type: str = "information"):
+        """
+        Exibe uma mensagem de popup com o título, mensagem e tipo especificados.
+
+        Parâmetros:
+        -----------
+        title : str
+            Título da mensagem.
+        msg : str
+            Mensagem a ser exibida.
+        type 
+        : str
+            Tipo da mensagem (information, warning, critical).
+        """
+        if hasattr(self, "_erro_aberto") and self._erro_aberto:
+            return
+
+        msgbox = QMessageBox(self)
+        msgbox.setWindowTitle(title)
+        msgbox.setText(msg)
+        if type == "information":
+            msgbox.setIcon(QMessageBox.Information)
+        elif type == "warning":
+            msgbox.setIcon(QMessageBox.Warning)
+        elif type == "critical":
+            msgbox.setIcon(QMessageBox.Critical)
+
+        # Estilo personalizado
+        msgbox.setStyleSheet("""
+            QLabel {
+                color: rgb(255, 137, 1);
+                font-size: 14pt;
+            }
+            QPushButton{
+            min-width: 80px;
+            font-size: 12pt;
+            background-color: rgb(255, 137, 1);
+            border: 3px outset rgb(93, 49, 0);
+            border-radius: 10px;
+            color: rgb(15, 15, 15);
+            }
+            QPushButton:hover{
+            color: rgb(255, 17, 0);
+            background-color: rgb(215, 97, 0);
+            }
+
+            QPushButton:pressed{
+            border: 3px inset rgb(93, 49, 0);
+            color: rgb(15, 15, 15);
+            background-color: rgb(255, 17, 0);
+            }
+
+            QPushButton:disabled {
+            background-color: #cccccc; /* Cinza */
+            border: 2px solid #999999;
+            color: #666666; /* Texto cinza escuro */
+            }
+
+        """)
+
+        self._erro_aberto = True
+        msgbox.exec_()
+        self._erro_aberto = False

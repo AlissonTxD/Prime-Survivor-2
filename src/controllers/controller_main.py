@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot, QTimer
+from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot
 from .controller_log_bot import start_log_bot, stop_log_bot
 from .controller_autoclicker import start_auto_clicker, stop_auto_clicker
 from .controller_autowalker import start_auto_walker, stop_auto_walker
@@ -18,19 +18,15 @@ class MainController(QObject):
     def __init__(self, view: MainWindow):
         super().__init__()
         self.view = view
-        self.config = ConfigRepository()
-        self.hotkeys = HotkeysModel()
-        self.view.load_data_on_view(self.config.data)
-        aim_update()
         self.index_of_config = 2
         self.ocr = None
         self.hotkeys_isnt_activated = False
         self.macro_running = MacroStatus(False, "none")
-        self.view.maintab.currentChanged.connect(self.__on_tab_changed)
-        self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
-        self.view.stop_log_bot_signal.connect(self.stop_all_controller)
-        self.view.save_config_signal.connect(self.__save_config)
-        self.view.aim_signal.connect(self.aim_controller)
+        self.config = ConfigRepository()
+        self.hotkeys = HotkeysModel()
+        self.view.load_data_on_view(self.config.data)
+        aim_update()
+        self.__conect_signal()
         self.__load_hotkeys_and_callbacks()
         self.__start_ocr_load()
 
@@ -44,6 +40,14 @@ class MainController(QObject):
         self.ocr = ocr_instance
         self.view.btn_start_log_bot.setText("Iniciar Bot")
         self.view.btn_start_log_bot.setEnabled(True)
+
+    def __conect_signal(self):
+        self.view.maintab.currentChanged.connect(self.__on_tab_changed)
+        self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
+        self.view.stop_log_bot_signal.connect(self.stop_all_controller)
+        self.view.save_config_signal.connect(self.__save_config)
+        self.view.aim_signal.connect(self.aim_controller)
+
 
 # Aim Config
     def aim_controller(self, aim_config):
@@ -116,6 +120,7 @@ class MainController(QObject):
     @pyqtSlot()
     def start_log_bot_controller(self):
         if self.ocr:
+            self.config.reload_config()
             self.__try_start(lambda :start_log_bot(self.ocr, self.config.data["logbot"]), stop_log_bot, "log_bot")
 
     @pyqtSlot()

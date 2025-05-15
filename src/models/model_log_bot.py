@@ -11,18 +11,17 @@ from src.models.entities.macrobase import MacroBase
 class LogBotModel(MacroBase):
     def __init__(self, image_generator_model, ocr_model=None, config=None, testmode=False):
         super().__init__()
+        self.ocr = ocr_model
+        self.generator = image_generator_model
+        self.testmode = testmode
+        self.load_config(config)
         self.event_counter = 0
         self.reset_counter = 0
-        self.TOKEN = config["token"]
-        self.CHANNEL_ID = config["channel_id"]
-        self.GROUP_ID = config["whatsapp"]
         self.client = None
         self.printer = None
-        self.ocr = ocr_model
-        self.testmode = testmode
-        self.generator = image_generator_model
-        self.events = []
         self.loop = None
+        self.events = []
+        
 
     def run(self):
         self.focus_in_window("ArkAscended")
@@ -35,7 +34,12 @@ class LogBotModel(MacroBase):
         async def on_ready():
             print(f"Login as {self.client.user}")
             channel = self.client.get_channel(self.CHANNEL_ID)
-            await channel.send("Log Bot Started!")
+            try:
+                await channel.send("Log Bot Started!")
+            except Exception as e:
+                self.error.emit(f"Bot Sem Acesso ao Canal: {e}")
+                self.finished.emit()
+                return
             if not self.printer.is_running():
                 self.printer.start()
 
@@ -45,6 +49,8 @@ class LogBotModel(MacroBase):
             channel = self.client.get_channel(self.CHANNEL_ID)
             self.generator.generate_image()
             text = self.__read_img_ocr("temp/subimage.png")
+            if text == None or not text.strip():
+                text = "No text detected"
             print(text)
             is_new_event = self.__validate_log(text)
 
@@ -55,8 +61,6 @@ class LogBotModel(MacroBase):
             if is_new_event:
                 message = text
                 if self.event_counter > 5:
-                    if text == None:
-                        text = "No text detected"
                     message = f"@everyone {text}"
                     self.event_counter = 0
                     if self.GROUP_ID != "none":
@@ -85,6 +89,7 @@ class LogBotModel(MacroBase):
             self.loop.run_until_complete(self.client.start(self.TOKEN))
         except Exception as e:
             print(f"Error starting the bot: {e}")
+            self.error.emit(f"Erro Iniciando o Log Bot: {e}")
         finally:
             try:
                 if self.client and self.client.is_closed() is False:
@@ -150,3 +155,9 @@ class LogBotModel(MacroBase):
         except Exception as e:
             print("Error validating log:", e)
             return False
+
+    def load_config(self, config):
+        self.TOKEN = config["token"]
+        self.CHANNEL_ID = config["channel_id"]
+        self.GROUP_ID = config["whatsapp"]
+        

@@ -9,6 +9,7 @@ class MetaQObjectABC(type(QObject), ABCMeta):
 
 class MacroBase(QObject, metaclass=MetaQObjectABC):
     finished = pyqtSignal()
+    error = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()

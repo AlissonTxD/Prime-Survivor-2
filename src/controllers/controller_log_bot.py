@@ -24,6 +24,7 @@ def start_log_bot(ocr, config):
         log_bot = LogBotModel(img_gen_model, ocr, config, testmode)
         thread = WorkerThread(log_bot)
         log_bot.finished.connect(bot_finished)
+        log_bot.error.connect(error_log_bot)
         thread.start()
 
     except Exception as e:
@@ -50,3 +51,7 @@ def bot_finished():
     view.btn_start_log_bot.setText("Iniciar Bot")
     view.btn_stop_log_bot.setEnabled(False)
     view.tooltip.tooltip()
+
+def error_log_bot(error):
+    view = MainWindow()
+    view.popup_message("Erro no Log Bot", error, "critical")
