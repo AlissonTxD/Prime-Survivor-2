@@ -1,5 +1,7 @@
-import time
-from pyautogui import moveTo, press
+from time import sleep
+
+import pyautogui
+
 from src.models.entities.macrobase import MacroBase
 
 class DropAllModel(MacroBase):
@@ -16,12 +18,19 @@ class DropAllModel(MacroBase):
         ]
 
     def run(self):
+        pyautogui.PAUSE = 0
+        pyautogui.FAILSAFE = False
+        
         while self.running:
             for x, y in self.slots:
-                moveTo(x, y)
                 if not self.running:
                     break
-                press("o")
+                pyautogui.moveTo(x, y, duration=0)
+                sleep(0.06)
+                pyautogui.click()
+                pyautogui.press("o")
+                sleep(0.06)
+        pyautogui.PAUSE = 0.1
         self.finished.emit()
 
     def stop(self):

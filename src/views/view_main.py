@@ -107,19 +107,6 @@ class MainWindow(QMainWindow):
             print(f"Erro ao carregar configurações: {e}")
 
     def popup_message(self, title: str = "Titulo", msg: str = "", type: str = "information"):
-        """
-        Exibe uma mensagem de popup com o título, mensagem e tipo especificados.
-
-        Parâmetros:
-        -----------
-        title : str
-            Título da mensagem.
-        msg : str
-            Mensagem a ser exibida.
-        type 
-        : str
-            Tipo da mensagem (information, warning, critical).
-        """
         if hasattr(self, "_erro_aberto") and self._erro_aberto:
             return
 
@@ -132,8 +119,7 @@ class MainWindow(QMainWindow):
             msgbox.setIcon(QMessageBox.Warning)
         elif type == "critical":
             msgbox.setIcon(QMessageBox.Critical)
-
-        # Estilo personalizado
+            
         msgbox.setStyleSheet("""
             QLabel {
                 color: rgb(255, 137, 1);
@@ -159,9 +145,9 @@ class MainWindow(QMainWindow):
             }
 
             QPushButton:disabled {
-            background-color: #cccccc; /* Cinza */
+            background-color: #cccccc;
             border: 2px solid #999999;
-            color: #666666; /* Texto cinza escuro */
+            color: #666666;
             }
 
         """)

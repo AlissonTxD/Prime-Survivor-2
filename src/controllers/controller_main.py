@@ -56,7 +56,6 @@ class MainController(QObject):
             self.aim_controller("aim_update")
         elif aim_config == "aim_update":
             config = aim_update()
-            print(config)
             self.config.data["aim"] = config
             self.config.save_config()
         elif aim_config == "aim_toggle":
@@ -96,11 +95,9 @@ class MainController(QObject):
         self.hotkeys.set_hotkeys(self.hotkeys_and_callbacks)
 
     def __on_tab_changed(self, index):
-            print(f"Tab changed to {index}")
             if index == self.index_of_config:
                 self.hotkeys_isnt_activated = True
                 self.hotkeys.stop()
-                print("Hotkeys stopped")
             elif index != self.index_of_config and self.hotkeys_isnt_activated:
                 self.hotkeys_isnt_activated = False
                 self.__load_hotkeys_and_callbacks()
