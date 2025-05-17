@@ -504,6 +504,201 @@ QSpinBox:focus {
             </widget>
            </item>
            <item>
+            <widget class="QFrame" name="frame_7">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+font-size: 28pt;
+font-family: &quot;Arial Black&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Auto Click</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_8">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QRadioButton" name="radioButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>140</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QRadioButton {
+    color: rgb(255, 137, 1);
+    font: bold 14pt &quot;Arial Black&quot;;
+    spacing: 10px;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    border: 2px solid rgb(255, 137, 1);
+    background-color: rgb(24, 24, 24);
+}
+
+QRadioButton::indicator:checked {
+    background-color: rgb(255, 137, 1);
+    border: 2px solid rgb(255, 137, 1);
+}
+
+QRadioButton::indicator:hover {
+    background-color: rgb(215, 97, 0);
+    border: 2px solid rgb(255, 165, 50);
+}
+
+QRadioButton::indicator:disabled {
+    background-color: #555555;
+    border: 2px solid #999999;
+}
+</string>
+                </property>
+                <property name="text">
+                 <string>Esquerdo</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton_2">
+                <property name="maximumSize">
+                 <size>
+                  <width>140</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QRadioButton {
+    color: rgb(255, 137, 1);
+    font: bold 14pt &quot;Arial Black&quot;;
+    spacing: 10px;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    border: 2px solid rgb(255, 137, 1);
+    background-color: rgb(24, 24, 24);
+}
+
+QRadioButton::indicator:checked {
+    background-color: rgb(255, 137, 1);
+    border: 2px solid rgb(255, 137, 1);
+}
+
+QRadioButton::indicator:hover {
+    background-color: rgb(215, 97, 0);
+    border: 2px solid rgb(255, 165, 50);
+}
+
+QRadioButton::indicator:disabled {
+    background-color: #555555;
+    border: 2px solid #999999;
+}
+</string>
+                </property>
+                <property name="text">
+                 <string>Direito</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="maximumSize">
+                 <size>
+                  <width>354</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 137, 1);
+font-size: 14pt;
+font-family: &quot;Arial Black&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Intervalo de Click(ms) : </string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>IBeamCursor</cursorShape>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+border: 0px solid rgb(45, 45, 45);
+border-radius: 10px;
+padding: 15px;
+background-color: rgb(24, 24, 24);
+color: rgb(80, 80, 80);
+font-size: 12pt;
+font-family: &quot;Arial Black&quot;;
+}
+
+QLineEdit:hover {
+border: 2px solid rgb(27, 27, 27);
+}
+
+QLineEdit:focus {
+border: 2px solid rgb(255, 137, 1);
+color: rgb(255, 255, 255)
+}
+
+</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
