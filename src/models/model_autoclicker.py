@@ -21,7 +21,8 @@ class AutoClickModel(MacroBase):
             while total_wait < self.delay and self.running:
                 sleep(check_interval)
                 total_wait += check_interval
-
+                
+        pyautogui.PAUSE = 0.1
         self.finished.emit()
 
     def stop(self):
