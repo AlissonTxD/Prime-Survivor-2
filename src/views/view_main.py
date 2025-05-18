@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QPushButton, QLineEdit, QSpinBox, QMessageBox
-from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox
+from PyQt5.QtWidgets import QTabWidget, QLabel, QComboBox, QRadioButton
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 
@@ -58,6 +58,9 @@ class MainWindow(QMainWindow):
         self.btn_activate_aim = self.findChild(QPushButton, "btn_activate_aim")
         self.combobox_aim_style = self.findChild(QComboBox, "combobox_aim_style")
         self.spinbox_aim_size = self.findChild(QSpinBox, "spinbox_aim_size")
+        self.lineedit_deley = self.findChild(QLineEdit, "lineedit_deley")
+        self.radiobutton_left = self.findChild(QRadioButton, "radiobutton_left")
+        self.radiobutton_right = self.findChild(QRadioButton, "radiobutton_right")
         
     def __configure_hotkey_handlers(self):
         for object_name, config_key in self.hotkey_definitions:
