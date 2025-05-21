@@ -5,12 +5,7 @@ PATH = "config.json"
 BASE_CONFIG = {
     "hotkeys": {},
     "aim": {},
-    "logbot": {
-        "token": "discord token",
-        "channel_id": "channel id discord",
-        "subimage_cut": [776, 213, 1146, 256],
-        "whatsapp": "none",
-    },
+    "logbot": {},
 }
 
 

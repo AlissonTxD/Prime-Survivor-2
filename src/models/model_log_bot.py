@@ -157,7 +157,10 @@ class LogBotModel(MacroBase):
             return False
 
     def load_config(self, config):
-        self.TOKEN = config["token"]
-        self.CHANNEL_ID = config["channel_id"]
-        self.GROUP_ID = config["whatsapp"]
+        try:
+            self.TOKEN = config["token"]
+            self.CHANNEL_ID = config["channel_id"]
+            self.GROUP_ID = config["whatsapp"]
+        except KeyError as e:
+            self.error.emit(f"Erro ao carregar configuração: {e}")
         

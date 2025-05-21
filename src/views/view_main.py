@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
     stop_log_bot_signal = pyqtSignal()
     save_config_signal = pyqtSignal()
     aim_signal = pyqtSignal(str)
+    get_config_signal = pyqtSignal(str)
 
     __instance = None
 
@@ -61,6 +62,8 @@ class MainWindow(QMainWindow):
         self.lineedit_deley = self.findChild(QLineEdit, "lineedit_deley")
         self.radiobutton_left = self.findChild(QRadioButton, "radiobutton_left")
         self.radiobutton_right = self.findChild(QRadioButton, "radiobutton_right")
+        self.btn_get_log_bot_square = self.findChild(QPushButton, "btn_get_log_bot_square")
+
         
     def __configure_hotkey_handlers(self):
         for object_name, config_key in self.hotkey_definitions:
@@ -75,15 +78,17 @@ class MainWindow(QMainWindow):
     def __connect_signals(self):
         self.btn_start_log_bot.clicked.connect(self.start_log_bot_signal)
         self.btn_stop_log_bot.clicked.connect(self.stop_log_bot_signal)
-        self.btn_save.clicked.connect(self.save_config_signal)
+        self.btn_save_shortcuts.clicked.connect(self.save_config_signal)
         self.btn_select_color.clicked.connect(lambda: self.aim_signal.emit("select_color"))
         self.btn_activate_aim.clicked.connect(lambda: self.aim_signal.emit("aim_toggle"))
         self.spinbox_aim_size.textChanged.connect(lambda: self.aim_signal.emit("aim_update"))
         self.combobox_aim_style.currentTextChanged.connect(lambda: self.aim_signal.emit("aim_update"))
+        self.btn_get_log_bot_square.clicked.connect(lambda: self.get_config_signal.emit("log_bot_square"))
 
     def load_data_on_view(self, data):
         self.__load_key_config(data["hotkeys"])
         self.__load_aim_config(data["aim"])
+        self.__load_configuration_config(data["logbot"])
 
     def __load_key_config(self, config):
         for sequence in self.key_list:
@@ -106,6 +111,20 @@ class MainWindow(QMainWindow):
                 index = self.combobox_aim_style.findText(config["aim_style"])
                 if index != -1:
                     self.combobox_aim_style.setCurrentIndex(index)
+        except Exception as e:
+            print(f"Erro ao carregar configurações: {e}")
+    
+    def __load_configuration_config(self, config):
+        try:
+            if "subimage_cut" in config:
+                self.lineedit_x1.setText(str(config["subimage_cut"][0]))
+                self.lineedit_y1.setText(str(config["subimage_cut"][1]))
+                self.lineedit_x2.setText(str(config["subimage_cut"][2]))
+                self.lineedit_y2.setText(str(config["subimage_cut"][3]))
+            if "channel_id" in config:
+                self.lineedit_channel_id.setText(str(config["channel_id"]))
+            if "whatsapp" in config and config["whatsapp"] != "none":
+                self.lineedit_whatsapp.setText(str(config["whatsapp"]))
         except Exception as e:
             print(f"Erro ao carregar configurações: {e}")
 

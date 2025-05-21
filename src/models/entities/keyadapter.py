@@ -9,7 +9,7 @@ class KeySequenceAdapter(QObject):
     def __init__(self, line_edit: QLineEdit, registry: dict):
         super().__init__()
         self.line_edit = line_edit
-        self._registry = registry  # Registro global de teclas
+        self._registry = registry
         self._key_sequence = None
 
         self.line_edit.installEventFilter(self)

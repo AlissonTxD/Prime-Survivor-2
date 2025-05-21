@@ -1,4 +1,5 @@
 from collections import namedtuple
+from time import sleep
 
 from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot
 from .controller_log_bot import start_log_bot, stop_log_bot
@@ -6,6 +7,7 @@ from .controller_autoclicker import start_auto_clicker, stop_auto_clicker
 from .controller_autowalker import start_auto_walker, stop_auto_walker
 from .crontroller_drop_all import start_drop_all, stop_drop_all
 from .controller_aim import set_aim_color, aim_update, aim_toggle
+from src.models.model_area_selector import AreaSelector
 from src.views.view_main import MainWindow
 from src.models.model_ocr_loader import OCRLoader
 from src.models.repository.config_json import ConfigRepository
@@ -45,8 +47,10 @@ class MainController(QObject):
         self.view.maintab.currentChanged.connect(self.__on_tab_changed)
         self.view.start_log_bot_signal.connect(self.start_log_bot_controller)
         self.view.stop_log_bot_signal.connect(self.stop_all_controller)
-        self.view.save_config_signal.connect(self.__save_config)
+        self.view.save_config_signal.connect(self.__save_config_shortcuts)
         self.view.aim_signal.connect(self.aim_controller)
+        self.view.get_config_signal.connect(self.__get_config_controller)
+        self.view.btn_save_config.clicked.connect(self.save_configurations)
 
 
 # Aim Config
@@ -62,7 +66,7 @@ class MainController(QObject):
             aim_toggle()
 
 # Hotkey Config
-    def __save_config(self):
+    def __save_config_shortcuts(self):
         new_config = {}
         for camp in self.view.key_list:
             line = camp["lineedit"]
@@ -101,6 +105,39 @@ class MainController(QObject):
             elif index != self.index_of_config and self.hotkeys_isnt_activated:
                 self.hotkeys_isnt_activated = False
                 self.__load_hotkeys_and_callbacks()
+
+    def __get_config_controller(self, config_name):
+        if config_name == "log_bot_square":
+            print("Log Bot Square")
+            self.area_selector = AreaSelector()
+            self.area_selector.final_signal.connect(self.load_square_on_view)
+
+    def load_square_on_view(self, coord):
+        self.view.lineedit_x1.setText(str(coord[0]))
+        self.view.lineedit_y1.setText(str(coord[1]))
+        self.view.lineedit_x2.setText(str(coord[2]))
+        self.view.lineedit_y2.setText(str(coord[3]))
+
+    def save_configurations(self):
+        try:
+            coord =(
+                int(self.view.lineedit_x1.text()),
+                int(self.view.lineedit_y1.text()),
+                int(self.view.lineedit_x2.text()),
+                int(self.view.lineedit_y2.text())
+                )
+            channel_id = int(self.view.lineedit_channel_id.text())
+            whatsapp = self.view.lineedit_whatsapp.text()
+            if whatsapp == "":
+                whatsapp = "none"
+            self.config.data["logbot"]["whatsapp"] = whatsapp
+            self.config.data["logbot"]["subimage_cut"] = coord
+            self.config.data["logbot"]["channel_id"] = channel_id
+        except ValueError:
+            self.view.popup_message("Erro", f"Preencha todos os campos corretamente.\nPreencha pelomenos as coordenadas e o ID do canal no discord.")
+            return
+        self.config.save_config()
+        self.view.popup_message("Sucesso", "Configurações salvas com sucesso.")
 
 # Scripts
     def __try_start(self, start_callback, stop_callback, callback_name):
