@@ -43,9 +43,9 @@ class LogBotModel(MacroBase):
             if not self.printer.is_running():
                 self.printer.start()
 
-        @tasks.loop(seconds=5.0)
+        @tasks.loop(seconds=10.0)
         async def printer():
-            loops_for_minute = 60 / 5  # 12
+            loops_for_minute = 60 / 10  # 6 loops for a minute
             channel = self.client.get_channel(self.CHANNEL_ID)
             self.generator.generate_image()
             text = self.__read_img_ocr("temp/subimage.png")

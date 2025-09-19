@@ -5,7 +5,7 @@ from PyQt5.QtCore import QObject, QMetaObject, Qt, pyqtSlot
 from .controller_log_bot import start_log_bot, stop_log_bot
 from .controller_autoclicker import start_auto_clicker, stop_auto_clicker
 from .controller_autowalker import start_auto_walker, stop_auto_walker
-from .crontroller_drop_all import start_drop_all, stop_drop_all
+from .controller_drop_all import start_drop_all, stop_drop_all
 from .controller_aim import set_aim_color, aim_update, aim_toggle
 from src.models.model_area_selector import AreaSelector
 from src.views.view_main import MainWindow
